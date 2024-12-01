@@ -6,7 +6,7 @@
     "start": "electron .",
     "dev:frontend": "cd src/frontend && npx vite",
     "dev:backend": "ts-node src/backend/src/main.ts",
-    "dev:electron": "electron dist/main.ts",
+    "dev:electron": "electron dist/main.js",
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:electron\"",
     "install:frontend": "cd src/frontend && npm install",
     "install:backend": "cd src/backend && npm install",
