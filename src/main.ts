@@ -14,7 +14,8 @@ app.on("ready", () => {
     },
   });
 
-  const isDev = process.env.NODE_ENV === "development";
+  // Todo: Criar variavel de ambiente para definir se é dev ou prod
+  const isDev = true; //process.env.NODE_ENV === "development";
   console.log("Environment:", isDev ? "Development" : "Production");
 
   if (isDev) {
