@@ -1,16 +1,27 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
     "module": "CommonJS",
+    "target": "ESNext",
     "strict": true,
     "esModuleInterop": true,
     "outDir": "dist",
-    "rootDir": "src", // Certifique-se de que todos os arquivos TypeScript estão na pasta src
-    "baseUrl": "./",
+    "skipLibCheck": true,
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "jsx": "react-jsx",
     "paths": {
       "*": ["node_modules/*"]
-    }
+    },
+    "types": ["node", "jest"]
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/backend/tests",
+    "**/*.spec.ts",
+    "**/*.e2e-spec.ts"
+  ]
 }
