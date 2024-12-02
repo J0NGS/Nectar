@@ -2,9 +2,9 @@ import { Button, Checkbox, Form, Input } from "antd";
 import { useState } from "react";
 
 type FieldType = {
-    username: string;
-    password: string;
-    remember?: boolean;
+  username: string;
+  password: string;
+  remember?: boolean;
 };
 
 const LoginForm = () => {
@@ -13,18 +13,20 @@ const LoginForm = () => {
   const [remember, setRemember] = useState(false);
 
   const loginUser = async (credentials: FieldType) => {
-    
     console.log(credentials);
-  }
+  };
 
   return (
-    <Form 
-        className="flex flex-col mt-10 w-full"
-        name="login"
-        initialValues={{ remember: true }}
-        onFinish={loginUser}
+    <Form
+      className="flex flex-col mt-10 w-full"
+      name="login"
+      initialValues={{ remember: true }}
+      onFinish={loginUser}
     >
-      <Form.Item name="username" rules={[{required:true, message: 'Nenhum campo pode ficar vazio'}]}>
+      <Form.Item
+        name="username"
+        rules={[{ required: true, message: "Nenhum campo pode ficar vazio" }]}
+      >
         <div className="flex flex-col gap-3">
           <label htmlFor="email" className="text-sm font-medium">
             E-mail
@@ -38,7 +40,10 @@ const LoginForm = () => {
           />
         </div>
       </Form.Item>
-      <Form.Item name="password" rules={[{required:true, message:'Nenhum campo pode ficar vazio'}]}>
+      <Form.Item
+        name="password"
+        rules={[{ required: true, message: "Nenhum campo pode ficar vazio" }]}
+      >
         <div className="flex flex-col gap-3">
           <label htmlFor="password" className="text-sm font-medium">
             Senha
@@ -65,7 +70,12 @@ const LoginForm = () => {
       </Form.Item>
 
       <Form.Item>
-        <Button htmlType="submit" type="primary" size="large" className="w-full">
+        <Button
+          htmlType="submit"
+          type="primary"
+          size="large"
+          className="w-full"
+        >
           Entrar
         </Button>
       </Form.Item>
