@@ -1,6 +1,7 @@
 import { Button, Checkbox, Form, Input } from "antd";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
 type FieldType = {
   username: string;
@@ -38,62 +39,63 @@ const LoginForm = () => {
 
   return (
     <Form
-      className="flex flex-col mt-10 w-full"
+      className="mt-10 w-full"
       name="login"
       initialValues={{ remember: true }}
       onFinish={loginUser}
+      layout="vertical"
     >
       <Form.Item
         name="username"
         rules={[{ required: true, message: "Nenhum campo pode ficar vazio" }]}
+        label="E-mail"
+        layout="vertical"
       >
-        <div className="flex flex-col gap-3">
-          <label htmlFor="email" className="text-sm font-medium">
-            E-mail
-          </label>
           <Input
-            className="h-10 rounded-md"
+            className="rounded-md"
+            size="large"
             id="email"
             type="email"
             placeholder="Digite seu e-mail"
             onChange={(e) => setUsername(e.target.value)}
+            prefix={<UserOutlined />}
           />
-        </div>
       </Form.Item>
       <Form.Item
         name="password"
         rules={[{ required: true, message: "Nenhum campo pode ficar vazio" }]}
+        label="Senha"
+        layout="vertical"
       >
-        <div className="flex flex-col gap-3">
-          <label htmlFor="password" className="text-sm font-medium">
-            Senha
-          </label>
           <Input.Password
-            className="h-10 rounded-md"
+            className="rounded-md"
             id="password"
             type="password"
             placeholder="Digite sua senha"
+            size="large"
             onChange={(e) => setPassword(e.target.value)}
+            prefix={<LockOutlined />}
           />
-        </div>
       </Form.Item>
-      <Form.Item name="remember" valuePropName="checked">
-        <div className="flex items-center gap-1">
-          <Checkbox
+      <Form.Item 
+        name="remember" 
+        valuePropName="checked"
+        noStyle
+      >
+        <Checkbox
             checked={remember}
             onClick={() => setRemember(!remember)}
             id="remember"
-            className="h-4 w-4 "
-          />
-          <label htmlFor="remember">Lembrar de mim</label>
-        </div>
+            
+          >Lembrar de mim</Checkbox>
       </Form.Item>
 
-      <Form.Item>
+      <Form.Item className="mt-4">
         <Button
           htmlType="submit"
           type="primary"
           size="large"
+          block
           className="w-full"
           loading={loading}
           disabled={loading}
