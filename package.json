@@ -5,17 +5,14 @@
   "scripts": {
     "start": "electron .",
     "dev:frontend": "cd src/frontend && npx vite",
-    "dev:backend": "ts-node src/backend/src/main.ts",
     "dev:electron": "electron dist/main.js",
-    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:electron\"",
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:electron\"",
     "install:frontend": "cd src/frontend && npm install",
-    "install:backend": "cd src/backend && npm install",
     "install:electron": "npm install",
-    "install": "npm run install:backend && npm run install:frontend && npm run install:electron",
+    "install": "npm run install:frontend && npm run install:electron",
     "build:frontend": "cd src/frontend && tsc && vite build",
-    "build:backend": "cd src/backend && tsc",
     "build:electron": "tsc --project tsconfig.json --outDir dist",
-    "build": "npm run build:frontend && npm run build:backend && npm run build:electron"
+    "build": "npm run build:frontend && npm run build:electron"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +28,7 @@
     "@electron/fuses": "^1.8.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.1",
+    "@types/wait-on": "^5.3.4",
     "@vitejs/plugin-react": "^4.3.4",
     "concurrently": "^8.0.1",
     "electron": "^33.2.1",
@@ -101,6 +99,7 @@
     "type-fest": "^0.13.1",
     "undici-types": "^6.19.8",
     "universalify": "^0.1.2",
+    "wait-on": "^8.0.1",
     "wrappy": "^1.0.2",
     "yauzl": "^2.10.0"
   },
