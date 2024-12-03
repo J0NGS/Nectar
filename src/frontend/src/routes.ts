@@ -1,5 +1,6 @@
-import LoginPage from "./pages/login";
 // Importe outras páginas aqui
+
+import { LoginPage } from "./components/pages/Login";
 
 interface Route {
   path: string;

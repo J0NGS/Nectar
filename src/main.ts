@@ -1,39 +1,28 @@
 import { app, BrowserWindow } from "electron";
-import * as path from "path";
+import waitOn from "wait-on";
 
-let mainWindow: BrowserWindow;
-
-app.on("ready", () => {
-  console.log("App is ready");
-  mainWindow = new BrowserWindow({
+const createWindow = async () => {
+  const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      contextIsolation: true,
-      nodeIntegration: false,
+      nodeIntegration: true,
     },
   });
 
-  // Todo: Criar variavel de ambiente para definir se é dev ou prod
-  const isDev = true; //process.env.NODE_ENV === "development";
-  console.log("Environment:", isDev ? "Development" : "Production");
+  const devServerUrl = "http://localhost:3000/";
 
-  if (isDev) {
-    console.log("Loading from Vite Dev Server...");
-    mainWindow
-      .loadURL("http://localhost:3000")
-      .catch((err) => console.error("Failed to load URL:", err));
+  if (process.env.NODE_ENV === "development") {
+    try {
+      await waitOn({ resources: [devServerUrl], timeout: 5000 });
+      mainWindow.loadURL(devServerUrl);
+    } catch (err) {
+      console.error("Dev server is not running:", err);
+    }
   } else {
-    const indexPath = path.join(__dirname, "../dist/frontend/index.html");
-    console.log("Loading from:", indexPath);
-    mainWindow
-      .loadFile(indexPath)
-      .catch((err) => console.error("Failed to load file:", err));
+    // Carregue o arquivo index.html no modo de produção
+    mainWindow.loadFile("dist/frontend/index.html");
   }
-});
+};
 
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
-});
+app.whenReady().then(createWindow);
