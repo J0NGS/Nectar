@@ -1,5 +1,6 @@
 import { Button, Checkbox, Form, Input } from "antd";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 type FieldType = {
   username: string;
@@ -11,8 +12,27 @@ const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const fakeLogin = {
+    username: "admin@admin.com",
+    password: "admin",
+  }
 
   const loginUser = async (credentials: FieldType) => {
+    setLoading(true);
+    
+    if(credentials.username !== fakeLogin.username || credentials.password !== fakeLogin.password) {
+        setTimeout(() => {
+            setLoading(false);
+            toast.error("Usuário ou senha incorretos");
+        }, 2000);
+    }else{
+        setTimeout(() => {
+            setLoading(false);
+            toast.success("Usuário logado com sucesso!");
+        }, 2000);
+    } 
     console.log(credentials);
   };
 
@@ -75,6 +95,8 @@ const LoginForm = () => {
           type="primary"
           size="large"
           className="w-full"
+          loading={loading}
+          disabled={loading}
         >
           Entrar
         </Button>
