@@ -1,5 +1,4 @@
-// Importe outras páginas aqui
-
+import { produtorPage } from "./components/pages/Produtor";
 import { LoginPage } from "./components/pages/Login";
 
 interface Route {
@@ -7,9 +6,18 @@ interface Route {
   component: React.FC;
 }
 
-const routes: Route[] = [
-  { path: "/login", component: LoginPage },
-  // Adicione outras rotas aqui
-];
+interface Teste {
+  withTemplate: Route[];
+  withoutTemplate: Route[];
+}
 
-export default routes;
+export const routes:Teste= {
+  // Rotas com template
+  withTemplate: [
+    {path: "/produtor", component: produtorPage},
+  ],
+  // Rotas sem template
+  withoutTemplate: [
+    {path: "/login", component: LoginPage},
+  ],
+}

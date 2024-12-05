@@ -2,10 +2,12 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ConfigProvider } from "antd";
 import { ToastContainer } from 'react-toastify';
+import { theme } from "./theme/themeConfig";
+import { routes } from "./routes";
+import { LayoutTemplate } from "./components/templates/LayoutTemplate";
 import 'react-toastify/dist/ReactToastify.css';
 
-import theme from "./theme/themeConfig";
-import routes from "./routes";
+
 const App: React.FC = () => {
   return (
     <Router>
@@ -23,7 +25,15 @@ const App: React.FC = () => {
         theme="light"
       />
         <Routes>
-        {routes.map(({ path, component: Component }, index) => (
+          {/* Rotas com template */}
+          <Route path="/" element={<LayoutTemplate />} >
+            {routes.withTemplate.map(({ path, component: Component }, index) => (
+                <Route key={index} path={path} element={<Component />} />
+              ))}
+          </Route>
+
+          {/* Rotas sem template */}
+          {routes.withoutTemplate.map(({ path, component: Component }, index) => (
             <Route key={index} path={path} element={<Component />} />
           ))}
         </Routes>
