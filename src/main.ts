@@ -1,10 +1,11 @@
 import { app, BrowserWindow } from "electron";
 import waitOn from "wait-on";
+import * as path from "path";
 
 const createWindow = async () => {
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1280,
+    height: 720,
     webPreferences: {
       nodeIntegration: true,
     },
@@ -21,7 +22,8 @@ const createWindow = async () => {
     }
   } else {
     // Carregue o arquivo index.html no modo de produção
-    mainWindow.loadFile("dist/frontend/index.html");
+    mainWindow.loadFile(path.join(__dirname,"dist/frontend/index.html"));
+    mainWindow.loadURL("http://localhost:3000/login");
   }
 };
 
