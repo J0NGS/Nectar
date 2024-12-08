@@ -2,6 +2,7 @@ import { Button, Checkbox, Form, Input } from "antd";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { useNavigate } from "react-router-dom";
 
 type FieldType = {
   username: string;
@@ -14,6 +15,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const fakeLogin = {
     username: "admin@admin.com",
@@ -32,6 +34,7 @@ const LoginForm = () => {
         setTimeout(() => {
             setLoading(false);
             toast.success("Usuário logado com sucesso!");
+            navigate("/produtor");
         }, 2000);
     } 
     console.log(credentials);
