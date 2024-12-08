@@ -50,7 +50,14 @@ export interface Beekeeper {
   status: UserStatus; // Status do usuário, padrão UserStatus.ACTIVE
   email?: string | null; // Email pode ser opcional ou nulo
   profile?: Profile; // Relacionamento com Profile
-  ownerId?: string; // ID do proprietário, referência para User
-  orgId?: string; // ID da organização, referência para User
+  owner?: User; // ID do proprietário, referência para User
+  org?: User; // ID da organização, referência para User
   createdAt?: string; // Data de criação no formato ISO
+}
+
+export interface Manager {
+  id?: string;
+  user?: User;
+  org?: User; 
+  createdAt?: string
 }
