@@ -14,20 +14,24 @@ export const LayoutTemplate: React.FC = () => {
   } = theme.useToken();
   return (
     <Layout className="h-screen">
-        <HeaderLayout style={{ padding: 0}} />
-        <Layout>
-          <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-            <MenuNavigate />
-          </Sider>
-          <Content
-            className="mx-6 my-6 p-6 min-h-72 rounded-md"
-            style={{
-              background: colorBgContainer,
-            }}
-          >
-            <Outlet />
-          </Content>
-        </Layout>
+      <HeaderLayout style={{ padding: 0 }} />
+      <Layout>
+        <Sider
+          collapsible
+          collapsed={collapsed}
+          onCollapse={(value) => setCollapsed(value)}
+        >
+          <MenuNavigate />
+        </Sider>
+        <Content
+          className="mx-6 my-6 p-6 min-h-72 rounded-md"
+          style={{
+            background: colorBgContainer,
+          }}
+        >
+          <Outlet />
+        </Content>
+      </Layout>
     </Layout>
   );
 };
