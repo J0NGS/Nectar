@@ -113,3 +113,15 @@ export const disablePastDates = (current: dayjs.Dayjs) => {
 export const convertRcFileToFile = (rcFile: RcFile): File => {
   return new File([rcFile], rcFile.name, { type: rcFile.type });
 };
+
+export const produtcTypeOptions = [
+  { label: "Cera", value: "WAX" },
+  { label: "Mel", value: "HONEY" },
+  // { label: "Pólen", value: "POLLEN" },
+  // { label: "Própolis", value: "PROPOLIS" },
+];
+
+export const booleanSelectOptions = [
+  { label: "Sim", value: true },
+  { label: "Não", value: false },
+];

@@ -38,6 +38,35 @@ export interface Page<T> {
   size: number;
 }
 
+export interface Pageable<T> {
+  content: Array<T>;
+  pageable: {
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    offset: number;
+    pageNumber: number;
+    pageSize: number;
+    paged: boolean;
+    unpaged: boolean;
+  };
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  size: number;
+  number: number;
+  first: boolean;
+  numberOfElements: number;
+  empty: boolean;
+}
+
 export interface MenuItemsProps {
   label: React.ReactNode;
   key?: React.Key | null;
@@ -113,4 +142,9 @@ export interface ItensGraph {
 
 export interface ResetPasswordForm {
   password: string;
+}
+
+export interface SelectOption extends Map {
+  label: string;
+  value: string;
 }

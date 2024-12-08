@@ -5,7 +5,7 @@ import type { InputNumberProps } from "antd/lib/input-number";
 
 interface IProps
   extends Omit<InputNumberProps, "decimalSeparator" | "addonAfter"> {
-  unit?: "R$" | "R$/kWh" | "R$/MWh" | "%" | "R$/kW";
+  unit?: "R$" | "Kg" | "R$/MWh" | "%" | "R$/kW";
 }
 
 export const InputMoney: FC<IProps> = ({

@@ -1,9 +1,15 @@
 export interface User {
   id?: string;
+  status?: UserStatus;
   auth?: Auth;
   profile?: Profile;
   role?: Role;
   createdAt?: Date;
+}
+
+export enum UserStatus {
+  ACTIVE = "ACTIVE",
+  INACTIVE = "INACTIVE",
 }
 
 export interface Auth {

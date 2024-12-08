@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#waxColorSchema .ant-radio-button-wrapper-checked {
+  scale: 1.13; /* Adiciona um leve zoom */
+}
