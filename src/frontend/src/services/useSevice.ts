@@ -9,7 +9,7 @@ export class UserService {
     username,
     password,
   }: LoginType): Promise<ResponseDTO<string>> {
-    const res = await API.postNoAuth("/user/login", {
+    const res = await API.postNoAuth("/users/login", {
       username,
       password,
     });
