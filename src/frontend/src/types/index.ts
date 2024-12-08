@@ -59,6 +59,7 @@ export interface UserType {
 export interface LoginType {
   email: string;
   password: string;
+  remember?: boolean;
 }
 
 export interface InputType extends Map {
