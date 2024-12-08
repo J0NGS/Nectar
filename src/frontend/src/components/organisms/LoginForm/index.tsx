@@ -1,28 +1,71 @@
 import { Button, Checkbox, Form, Input } from "antd";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
 import { LoginType } from "@/types";
+import { AuthContext } from "@/contexts/AuthContext";
+import CryptoJS from "crypto-js";
 
 export const LoginForm = () => {
-  const [remember, setRemember] = useState(true);
   const [form] = Form.useForm<LoginType>();
   const [loading, setLoading] = useState(false);
 
-  const navigate = useNavigate();
+  const { signIn } = useContext(AuthContext);
+  const secret = import.meta.env.VITE_SECRET_KEY || "";
 
-  const loginUser = async (values: LoginType) => {
-    setLoading(true);
+  useEffect(() => {
+    const rememberMe = localStorage.getItem("nectar_rememberMe");
+    const username = localStorage.getItem("nectar_username");
+    const password = localStorage.getItem("nectar_password");
 
+    const remember = rememberMe === "true";
+
+    if (remember && username && password) {
+      const decryptPass = CryptoJS.AES.decrypt(password, secret).toString(
+        CryptoJS.enc.Utf8
+      );
+
+      form.setFieldsValue({
+        username: username,
+        password: decryptPass,
+        remember: remember,
+      });
+    }
+  }, [secret]);
+
+  const onFinish = async (values: LoginType) => {
     try {
-      toast.success("Usuário logado com sucesso!");
-      navigate("/produtor");
+      setLoading(true);
+      const result = await signIn({
+        username: values.username,
+        password: values.password,
+      });
+
+      if (values.remember) {
+        let encryptPass = CryptoJS.AES.encrypt(
+          values.password,
+          secret
+        ).toString();
+
+        localStorage.setItem("nectar_rememberMe", values.remember.toString());
+        localStorage.setItem("nectar_username", values.username.toString());
+        localStorage.setItem("nectar_password", encryptPass);
+      } else {
+        localStorage.removeItem("nectar_rememberMe");
+        localStorage.removeItem("nectar_username");
+        localStorage.removeItem("nectar_password");
+      }
+
+      if (!result) toast.success("Login efetuado com sucesso!");
     } catch (error) {
-      console.error("loginUser", error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.error("Failed:", errorInfo);
   };
 
   return (
@@ -30,7 +73,8 @@ export const LoginForm = () => {
       className="mt-10 w-full"
       name="login"
       initialValues={{ remember: true }}
-      onFinish={loginUser}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
       layout="vertical"
     >
       <Form.Item
@@ -64,9 +108,7 @@ export const LoginForm = () => {
         />
       </Form.Item>
       <Form.Item name="remember" valuePropName="checked" noStyle>
-        <Checkbox checked={remember} id="remember">
-          Lembrar de mim
-        </Checkbox>
+        <Checkbox id="remember">Lembrar de mim</Checkbox>
       </Form.Item>
 
       <Form.Item className="mt-4">

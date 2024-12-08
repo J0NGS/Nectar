@@ -1,6 +1,5 @@
-import toast from 'react-hot-toast';
-
-import { AbstractException } from '@/services/handler/AbstractException';
+import { AbstractException } from "@/services/handler/AbstractException";
+import { toast } from "react-toastify";
 
 interface TypeErrors {
   e: unknown;

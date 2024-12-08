@@ -6,17 +6,17 @@ const API = new BaseApi();
 
 export class UserService {
   static async login({
-    email,
+    username,
     password,
-  }: LoginType): Promise<ResponseDTO<any>> {
+  }: LoginType): Promise<ResponseDTO<string>> {
     const res = await API.postNoAuth("/user/login", {
-      email,
+      username,
       password,
     });
 
     if (res == undefined)
       throw new AbstractException("Alguma coisa aconteceu errado!");
 
-    return res as ResponseDTO<any>;
+    return res as ResponseDTO<string>;
   }
 }

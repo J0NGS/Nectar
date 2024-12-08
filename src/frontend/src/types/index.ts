@@ -51,13 +51,14 @@ export interface UserType {
   id?: string;
   name?: string;
   password?: string;
-  email?: string;
+  username?: string;
   document?: string;
   role?: string;
+  authorities?: string[];
 }
 
 export interface LoginType {
-  email: string;
+  username: string;
   password: string;
   remember?: boolean;
 }

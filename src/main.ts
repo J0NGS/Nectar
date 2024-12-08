@@ -13,7 +13,7 @@ const createWindow = async () => {
 
   const devServerUrl = "http://localhost:3000/";
 
-  if (process.env.NODE_ENV === "development") {
+  if (import.meta.env.VITE_NODE_ENV === "development") {
     try {
       await waitOn({ resources: [devServerUrl], timeout: 5000 });
       mainWindow.loadURL(devServerUrl);

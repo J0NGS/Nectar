@@ -1,4 +1,4 @@
-const API_URL = process.env.FRONTEND;
+const API_URL = import.meta.env.VITE_FRONTEND;
 
 export const anchorTo = async (path: string) => {
   window.parent.location.href = API_URL + path;

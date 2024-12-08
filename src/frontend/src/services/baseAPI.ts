@@ -7,13 +7,14 @@ import { ArgsError, ResponseDTO } from "../types";
 import { anchorTo } from "../utils/link";
 import { toast } from "react-toastify";
 
-const nextAuthTokenName = process.env.NEXT_AUTH_TOKEN_NAME ?? "nextauth.token";
+const nextAuthTokenName =
+  import.meta.env.VITE_NEXT_AUTH_TOKEN_NAME ?? "nextauth.token";
 const nextAuthRedirectName =
-  process.env.NEXT_AUTH_REDIRECT_NAME ?? "nextauth.redirect";
+  import.meta.env.VITE_NEXT_AUTH_REDIRECT_NAME ?? "nextauth.redirect";
 
 export class BaseApi {
   public isExpired = false;
-  private baseAPI = process.env.BACKEND + "/api";
+  private baseAPI = import.meta.env.VITE_BACKEND + "/api";
 
   private buildUrlWithParams(
     rota: string,
