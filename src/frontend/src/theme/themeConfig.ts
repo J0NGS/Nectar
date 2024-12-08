@@ -11,7 +11,7 @@ export const theme: ThemeConfig = {
       iconSize:25
     },
     Button:{
-      borderRadius:4,
+      borderRadius:2,
     },
     Input:{
       borderRadius:2
