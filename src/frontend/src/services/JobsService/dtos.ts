@@ -1,4 +1,5 @@
 import { JobsStatus, ProductType } from "@/types/entitysType";
+import { Dayjs } from "dayjs";
 
 export interface CreateJobDTO {
   status?: JobsStatus; // Defaults to JobsStatus.IN_PROGRESS
@@ -13,7 +14,7 @@ export interface CreateJobDTO {
   quantityOfBales: number; // Quantidade de fardos
   weight: number;
   beekeeperId: string;
-  startAt: string;
+  startAt: string | Date | Dayjs;
   productType?: ProductType; // Defaults to ProductType.WAX
 
   postProcessing?: PostProcessingDTO;

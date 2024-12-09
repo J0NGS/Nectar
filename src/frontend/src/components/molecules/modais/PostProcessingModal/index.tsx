@@ -43,12 +43,14 @@ export const PostProcessingModal = ({
 
     console.log("postProcessingValue", postProcessingValue);
 
-    // const formValue = {
-    //   ...initialData,
-    //   postProcessing: postProcessingValue,
-    // };
+    const formValue: CreateJobDTO = {
+      ...initialData,
+      beekeeperId: initialData.beekeeper?.id!!,
+      startAt: initialData.startAt!!,
+      postProcessing: postProcessingValue,
+    };
 
-    // if (initialData?.id) update(initialData.id, formValue);
+    if (initialData?.id) update(initialData.id, formValue);
 
     closeModal();
   };

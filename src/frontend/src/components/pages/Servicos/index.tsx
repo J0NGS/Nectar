@@ -47,6 +47,7 @@ export const ServicosPage: React.FC = () => {
             <Radio.Group
               value={jobStatus}
               onChange={(e) => setJobStatus(e.target.value)}
+              buttonStyle="solid"
             >
               <Radio.Button value="ALL">Todos</Radio.Button>
               <Radio.Button value="IN_PROGRESS">Em progresso</Radio.Button>

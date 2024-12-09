@@ -120,26 +120,6 @@ export interface CNPJ {
   ddd_telefone_1?: string;
 }
 
-export interface MonthlyBoard {
-  waste: number;
-  revenue: number;
-  newBeekeepers: number;
-  ConcludeServices: number;
-  inProcessingServices: number;
-}
-
-export interface Graph {
-  month?: string;
-  data: ItensGraph[];
-}
-
-export interface ItensGraph {
-  date?: string;
-  startedServices: number;
-  MediaWasteOfServices: number;
-  MediaRevenueOfServices: number;
-}
-
 export interface ResetPasswordForm {
   password: string;
 }

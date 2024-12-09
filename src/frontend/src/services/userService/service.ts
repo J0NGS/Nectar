@@ -1,6 +1,6 @@
-import { LoginType, ResponseDTO } from "../types";
-import { BaseApi } from "./baseAPI";
-import { AbstractException } from "./handler/AbstractException";
+import { LoginType, ResponseDTO } from "../../types";
+import { BaseApi } from "../baseAPI";
+import { AbstractException } from "../handler/AbstractException";
 
 const API = new BaseApi();
 

@@ -4,35 +4,36 @@ import { Flex, Form, Modal, Typography } from "antd";
 
 import { LoadingContent } from "@/components/atoms/LoadingContent";
 
-import { Job } from "@/types/entitysType";
-import { CreateJobDTO, PostProcessingDTO } from "@/services/JobsService/dtos";
-import { JobsService } from "@/services/JobsService/service";
-import { JobForm } from "@/components/organisms/JobForm";
-import { PostProcessingForm } from "@/components/organisms/PostProcessingForm";
-import { validateFormIsEmpty } from "@/utils/validations";
+import { Beekeeper } from "@/types/entitysType";
+import { ManagerService } from "@/services/managerService/service";
+import { UserForm } from "@/components/organisms/UserForm";
+import { UserType } from "@/types";
+import { Profile } from "@/types/authTypes";
+import { AddressForm } from "@/components/organisms/AddressForm";
 import dayjs from "dayjs";
+import { validateFormIsEmpty } from "@/utils/validations";
 
 export interface Props {
   isOpen: boolean;
   onClose: () => void;
-  initialData?: Job;
+  initialData?: Beekeeper;
   reload?: () => Promise<void>;
 }
 
-export const CreateJobsModal = ({
+export const CreateBeekeeperModal = ({
   isOpen,
   onClose,
   initialData,
   reload,
 }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [form] = Form.useForm<CreateJobDTO>();
-  const [postProcessingForm] = Form.useForm<PostProcessingDTO>();
+  const [form] = Form.useForm<Profile>();
+  const [addressForm] = Form.useForm();
 
-  const create = async (data: CreateJobDTO) => {
+  const create = async (data: UserType) => {
     try {
       setLoading(true);
-      const res = JobsService.create(data);
+      const res = ManagerService.create(data);
       await reload?.();
       closeModal();
     } catch (error) {
@@ -42,10 +43,10 @@ export const CreateJobsModal = ({
     }
   };
 
-  const update = async (id: string, data: CreateJobDTO) => {
+  const update = async (id: string, data: UserType) => {
     try {
       setLoading(true);
-      await JobsService.update(id, data);
+      await ManagerService.update(id, data);
       await reload?.();
       closeModal();
     } catch (error) {
@@ -57,10 +58,10 @@ export const CreateJobsModal = ({
 
   const submit = async () => {
     const formValue = form.getFieldsValue();
-    const postProcessingValue = postProcessingForm.getFieldsValue();
+    const addressValue = addressForm.getFieldsValue();
 
-    if (validateFormIsEmpty(postProcessingValue)) {
-      formValue.postProcessing = postProcessingValue;
+    if (validateFormIsEmpty(addressValue.address)) {
+      formValue.address = addressValue.address;
     }
 
     if (initialData?.id) update(initialData.id, formValue);
@@ -75,35 +76,38 @@ export const CreateJobsModal = ({
 
   useEffect(() => {
     if (initialData) {
-      const formValue: CreateJobDTO = {
-        ...initialData,
-        beekeeperId: initialData.beekeeper?.id!!,
-        startAt: dayjs(initialData.startAt!!),
+      const formValue = {
+        ...initialData.profile,
+        birthDate: dayjs(initialData.profile?.birthDate),
       };
 
       form.setFieldsValue(formValue);
+
+      addressForm.setFieldsValue({
+        address: initialData.profile?.address,
+      });
     }
   }, [initialData]);
 
   return (
     <Modal
-      title={`${initialData ? "Editar" : "Adicionar"} Serviço`}
+      title={`${initialData ? "Editar" : "Adicionar"} Apicultor`}
       open={isOpen}
       onOk={submit}
       onClose={closeModal}
       onCancel={closeModal}
       okText="Salvar"
-      width={1000}
+      width={800}
     >
       <LoadingContent isLoading={loading} />
 
       <Flex gap={15} vertical className="mt-5">
-        <JobForm form={form} />
+        <Typography.Title level={5}>Dados Pessoais</Typography.Title>
+        <UserForm form={form} />
         <Typography.Title level={5}>
-          Pós-processamento{" "}
-          <span className="text-sm font-normal">(Opcional)</span>
+          Endereço <span className="text-sm font-normal">(Opcional)</span>
         </Typography.Title>
-        <PostProcessingForm form={postProcessingForm} />
+        <AddressForm form={addressForm} />
       </Flex>
     </Modal>
   );

@@ -26,6 +26,7 @@ export interface Job {
 
   quantityOfBales: number; // Quantidade de fardos
   weight: number; // Peso total
+  startAt: string;
 
   postProcessingBales?: number; // Quantidade de fardos pós-processamento
   postProcessingWeight?: number; // Peso total pós-processamento

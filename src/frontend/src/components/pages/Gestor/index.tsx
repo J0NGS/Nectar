@@ -7,8 +7,9 @@ import { useEffect, useState } from "react";
 import { ManagerService } from "@/services/managerService/service";
 import { ManagerTable } from "@/components/molecules/tables/ManagerTable";
 import { BasePagination } from "@/components/atoms/BasePagination";
+import { CreateManagerModal } from "@/components/molecules/modais/CreateManagerModal";
 
-export const ProdutorPage: React.FC = () => {
+export const GestorPage: React.FC = () => {
   const [resource, setResource] = useState<Pageable<Manager>>();
   const [status, setStatus] = useState<string>("ACTIVE");
   const [page, setPage] = useState<number>(0);
@@ -37,34 +38,54 @@ export const ProdutorPage: React.FC = () => {
   }, [page, status]);
 
   return (
-    <Flex gap={20} vertical className="overflow-hidden">
-      <Flex justify="space-between">
-        <Typography.Title level={4}>Gestores</Typography.Title>
-        <Flex gap={8}>
-          <Radio.Group value={30} onChange={(e) => setStatus(e.target.value)}>
-            <Radio.Button value="ACTIVE">Ativos</Radio.Button>
-            <Radio.Button value="INACTIVE">Inativos</Radio.Button>
-          </Radio.Group>
-          <Search
-            placeholder="Pesquise um produtor..."
-            allowClear
-            onSearch={(value) => console.log(value)}
-            style={{ width: 304 }}
+    <>
+      <Flex gap={20} vertical className="overflow-hidden">
+        <Flex justify="space-between">
+          <Typography.Title level={4}>Gestores</Typography.Title>
+          <Flex gap={8}>
+            <Radio.Group
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              buttonStyle="solid"
+            >
+              <Radio.Button value="ACTIVE">Ativos</Radio.Button>
+              <Radio.Button value="INACTIVE">Inativos</Radio.Button>
+            </Radio.Group>
+            <Search
+              placeholder="Pesquise um produtor..."
+              allowClear
+              onSearch={(value) => console.log(value)}
+              style={{ width: 304 }}
+            />
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={() => setCreateManagerModal(true)}
+            >
+              Novo Gestor
+            </Button>
+          </Flex>
+        </Flex>
+
+        <Flex gap={20} vertical>
+          <ManagerTable
+            dataSource={resource?.content ?? []}
+            pagination={false}
+            loading={loading}
           />
-          <Button type="primary" icon={<PlusOutlined />}>
-            Novo Gestor
-          </Button>
+          <BasePagination page={page} setPage={setPage} pageable={resource} />
         </Flex>
       </Flex>
 
-      <Flex gap={20} vertical>
-        <ManagerTable
-          dataSource={resource?.content ?? []}
-          pagination={false}
-          loading={loading}
-        />
-        <BasePagination page={page} setPage={setPage} pageable={resource} />
-      </Flex>
-    </Flex>
+      <CreateManagerModal
+        isOpen={createManagerModal || !!selectedEditManager}
+        onClose={() => {
+          setCreateManagerModal(false);
+          setSelectedEditManager(undefined);
+        }}
+        initialData={selectedEditManager}
+        reload={fetchPage}
+      />
+    </>
   );
 };

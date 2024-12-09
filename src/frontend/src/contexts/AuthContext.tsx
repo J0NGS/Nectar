@@ -14,7 +14,7 @@ import { LoginType, UserType } from "@/types";
 import { handleError } from "@/utils/handleError";
 import { isTokenValid } from "@/utils/helpers";
 import { useLocation, useNavigate } from "react-router-dom";
-import { UserService } from "@/services/useSevice";
+import { UserService } from "@/services/userService/service";
 import { toast } from "react-toastify";
 import { Role } from "@/types/authTypes";
 

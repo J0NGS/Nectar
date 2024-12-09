@@ -1,8 +1,8 @@
 import { ProdutorPage } from "./components/pages/Produtor";
 import { LoginPage } from "./components/pages/Login";
-import { GestorPage } from "./components/pages/Gestor";
 import { ServicosPage } from "./components/pages/Servicos";
 import { DashboardPage } from "./components/pages/Dashboard";
+import { GestorPage } from "./components/pages/Gestor";
 
 interface Route {
   path: string;
