@@ -20,8 +20,12 @@ export interface Graph {
 }
 
 export interface ItensGraph {
+  day?: string;
+  value?: number;
+  type?: string;
+
   date?: string;
-  startedServices: number;
-  MediaWasteOfServices: number;
-  MediaRevenueOfServices: number;
+  startedServices?: number;
+  mediaWasteOfServices?: number;
+  mediaRevenueOfServices?: number;
 }

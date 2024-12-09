@@ -1,13 +1,20 @@
 import { BasePagination } from "@/components/atoms/BasePagination";
 import { JobsTable } from "@/components/molecules/tables/JobsTable";
+import { Graph, ItensGraph } from "@/services/dashboarService/dtos";
 import { DashboarService } from "@/services/dashboarService/service";
 import { Pageable } from "@/types";
 import { Job } from "@/types/entitysType";
 import { Card, Col, Flex, Radio, Row } from "antd";
+import dayjs from "dayjs";
+import React from "react";
 import { useEffect, useState } from "react";
+
+const FlowGraph = React.lazy(() => import("@/components/molecules/FlowGraph"));
 
 export const DashboardPage: React.FC = () => {
   const [resource, setResource] = useState<Pageable<Job>>();
+  const [resourceGraph, setResourceGraph] = useState<ItensGraph[]>([]);
+
   const [page, setPage] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [date, setDate] = useState<Date>(new Date());
@@ -29,9 +36,58 @@ export const DashboardPage: React.FC = () => {
     }
   };
 
+  const fetchGraphData = async () => {
+    setLoading(true);
+    try {
+      const { data } = await DashboarService.monthlyGraph(date);
+      console.log("fetchGraphData", data);
+
+      const startedServices = data.data?.map((item: ItensGraph) => {
+        return {
+          day: dayjs(item.date).format("DD"),
+          value: item.startedServices,
+          date: item.date,
+          type: "Iniciados",
+        };
+      });
+
+      const wasteOfServices = data.data?.map((item: ItensGraph) => {
+        return {
+          day: dayjs(item.date).format("DD"),
+          value: item.mediaWasteOfServices,
+          date: item.date,
+          type: "Desperdiçado",
+        };
+      });
+
+      const revenueOfServices = data.data?.map((item: ItensGraph) => {
+        return {
+          day: dayjs(item.date).format("DD"),
+          value: item.mediaRevenueOfServices,
+          date: item.date,
+          type: "Desperdiçado",
+        };
+      });
+
+      setResourceGraph([
+        ...startedServices,
+        ...wasteOfServices,
+        ...revenueOfServices,
+      ]);
+    } catch (error) {
+      console.error("fetchGraphData", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchGraphData();
+  }, [date]);
+
   useEffect(() => {
     fetchJobs();
-  }, [page, jobStatus]);
+  }, [page, jobStatus, date]);
 
   return (
     <Flex gap={20} vertical>
@@ -39,11 +95,11 @@ export const DashboardPage: React.FC = () => {
         <Col span={24} md={{ span: 6 }}>
           <Card></Card>
         </Col>
-        <Col span={24} md={{ span: 18 }}>
-          <Card></Card>
-        </Col>
+        <Col span={24} md={{ span: 18 }}></Col>
       </Row>
-      <Card title="Fluxo de serviço"></Card>
+      <Card title="Fluxo de serviço">
+        <FlowGraph data={resourceGraph} />
+      </Card>
       <Card title="Histórico">
         <Flex gap={20} vertical>
           <Flex gap={8} justify="end">
