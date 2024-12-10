@@ -8,6 +8,7 @@ import { Manager } from "@/types/entitysType";
 import { ManagerService } from "@/services/managerService/service";
 import { UserForm } from "@/components/organisms/UserForm";
 import { UserType } from "@/types";
+import { cleanMask } from "@/utils/formaters/format";
 
 export interface Props {
   isOpen: boolean;
@@ -26,9 +27,14 @@ export const CreateManagerModal = ({
   const [form] = Form.useForm<UserType>();
 
   const create = async (data: UserType) => {
+    const formData = {
+      ...data,
+      document: cleanMask(data.document),
+    };
+
     try {
       setLoading(true);
-      const res = ManagerService.create(data);
+      const res = ManagerService.create(formData);
       await reload?.();
       closeModal();
     } catch (error) {
@@ -39,9 +45,14 @@ export const CreateManagerModal = ({
   };
 
   const update = async (id: string, data: UserType) => {
+    const formData = {
+      ...data,
+      document: cleanMask(data.document),
+    };
+
     try {
       setLoading(true);
-      await ManagerService.update(id, data);
+      await ManagerService.update(id, formData);
       await reload?.();
       closeModal();
     } catch (error) {
@@ -88,7 +99,7 @@ export const CreateManagerModal = ({
       <LoadingContent isLoading={loading} />
 
       <Flex gap={15} vertical className="mt-5">
-        <UserForm form={form} withAuth/>
+        <UserForm form={form} withAuth />
       </Flex>
     </Modal>
   );

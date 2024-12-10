@@ -12,6 +12,7 @@ import { Profile } from "@/types/authTypes";
 import { AddressForm } from "@/components/organisms/AddressForm";
 import dayjs from "dayjs";
 import { validateFormIsEmpty } from "@/utils/validations";
+import { cleanMask } from "@/utils/formaters/format";
 
 export interface Props {
   isOpen: boolean;
@@ -64,8 +65,13 @@ export const CreateBeekeeperModal = ({
       formValue.address = addressValue.address;
     }
 
-    if (initialData?.id) update(initialData.id, formValue);
-    else create(formValue);
+    const formData = {
+      ...formValue,
+      document: cleanMask(formValue.document),
+    };
+
+    if (initialData?.id) update(initialData.id, formData);
+    else create(formData);
     closeModal();
   };
 
