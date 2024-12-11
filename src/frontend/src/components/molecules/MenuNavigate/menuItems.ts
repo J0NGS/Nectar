@@ -4,8 +4,17 @@ import {
   UsergroupAddOutlined,
   SwapOutlined,
   UserSwitchOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
 import React from "react";
+
+const nextAuthTokenName =
+    import.meta.env.VITE_NEXT_AUTH_TOKEN_NAME ?? "nextauth.token";
+
+export const signOut = () => {
+    localStorage.removeItem(nextAuthTokenName);
+}
+
 
 export const menuItems: MenuProps["items"] = [
   {
@@ -27,5 +36,12 @@ export const menuItems: MenuProps["items"] = [
     key: "/servico",
     label: "Serviços",
     icon: React.createElement(SwapOutlined),
+  },
+  {
+    key: "/login",
+    label: "Logout",
+    icon: React.createElement(LogoutOutlined),
+    onClick: signOut,
+    style: { position: "absolute", bottom: 0 },
   },
 ];
