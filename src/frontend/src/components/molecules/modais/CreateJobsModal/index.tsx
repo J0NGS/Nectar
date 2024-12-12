@@ -56,11 +56,24 @@ export const CreateJobsModal = ({
   };
 
   const submit = async () => {
-    const formValue = form.getFieldsValue();
+    const data = form.getFieldsValue();
     const postProcessingValue = postProcessingForm.getFieldsValue();
 
+    const formValue = {
+      ...data,
+      weight: data.weight * 100,
+    };
+
     if (validateFormIsEmpty(postProcessingValue)) {
-      formValue.postProcessing = postProcessingValue;
+      const postProcessing = {
+        ...postProcessingValue,
+        postProcessingWeight: postProcessingValue.postProcessingWeight!! * 100,
+        postProcessingRevenue:
+          postProcessingValue.postProcessingRevenue!! * 100,
+        waste: postProcessingValue.waste!! * 100,
+      };
+
+      formValue.postProcessing = postProcessing;
     }
 
     if (initialData?.id) update(initialData.id, formValue);
