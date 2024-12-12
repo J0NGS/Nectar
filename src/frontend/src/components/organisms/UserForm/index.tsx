@@ -36,7 +36,7 @@ export const UserForm = ({ withAuth = false, ...rest }: Props) => {
             id="email"
             rules={[
               {
-                required: true,
+                required: withAuth,
                 message: "Campo obrigatório!",
               },
             ]}
@@ -58,29 +58,12 @@ export const UserForm = ({ withAuth = false, ...rest }: Props) => {
             name={"document"}
             key={"document"}
             id="document"
-            rules={[
-              {
-                required: true,
-                message: "Campo obrigatório!",
-              },
-            ]}
           >
             <InputCpf placeholder="CPF" style={{ width: "100%" }} />
           </Form.Item>
         </Col>
         <Col span={24} md={{ span: 8 }}>
-          <Form.Item
-            label="Telefone"
-            name={"phone"}
-            key={"phone"}
-            id="phone"
-            rules={[
-              {
-                required: true,
-                message: "Campo obrigatório!",
-              },
-            ]}
-          >
+          <Form.Item label="Telefone" name={"phone"} key={"phone"} id="phone">
             <InputPhone placeholder="Telefone" style={{ width: "100%" }} />
           </Form.Item>
         </Col>

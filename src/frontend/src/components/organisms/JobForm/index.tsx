@@ -47,8 +47,8 @@ export const JobForm = ({ ...rest }: JobFormProps) => {
               placeholder="Selecione um apicultor"
               options={beekeepers.map((item) => {
                 return {
-                  label: item.id,
-                  value: item.profile?.name,
+                  label: item.profile?.name,
+                  value: item.id,
                 };
               })}
             />
