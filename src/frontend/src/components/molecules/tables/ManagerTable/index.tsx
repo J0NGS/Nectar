@@ -15,7 +15,8 @@ export const ManagerTable = ({ ...rest }: TableProps<Manager>) => {
       title: "Documento",
       dataIndex: "email",
       key: "email",
-      render: (_, { user }) => formatCpfCnpj(user?.profile?.document),
+      render: (_, { user }) =>
+        user?.profile?.document ? formatCpfCnpj(user?.profile?.document) : "-",
     },
     {
       title: "Email",
@@ -27,7 +28,8 @@ export const ManagerTable = ({ ...rest }: TableProps<Manager>) => {
       title: "Telefone",
       dataIndex: "phone",
       key: "phone",
-      render: (_, { user }) => user?.profile?.phone,
+      render: (_, { user }) =>
+        user?.profile?.phone ? user?.profile?.phone : "-",
     },
   ];
 

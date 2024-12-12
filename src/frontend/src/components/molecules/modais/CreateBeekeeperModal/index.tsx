@@ -13,6 +13,7 @@ import { AddressForm } from "@/components/organisms/AddressForm";
 import dayjs from "dayjs";
 import { validateFormIsEmpty } from "@/utils/validations";
 import { cleanMask } from "@/utils/formaters/format";
+import { BeekeepersService } from "@/services/beekeepersService/service";
 
 export interface Props {
   isOpen: boolean;
@@ -34,7 +35,7 @@ export const CreateBeekeeperModal = ({
   const create = async (data: UserType) => {
     try {
       setLoading(true);
-      const res = ManagerService.create(data);
+      const res = await BeekeepersService.create(data);
       await reload?.();
       closeModal();
     } catch (error) {
@@ -47,7 +48,7 @@ export const CreateBeekeeperModal = ({
   const update = async (id: string, data: UserType) => {
     try {
       setLoading(true);
-      await ManagerService.update(id, data);
+      await BeekeepersService.update(id, data);
       await reload?.();
       closeModal();
     } catch (error) {
