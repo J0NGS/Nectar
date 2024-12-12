@@ -14,7 +14,7 @@ export const LoginForm = () => {
   const secret = import.meta.env.VITE_SECRET_KEY || "";
 
   useEffect(() => {
-    const rememberMe = localStorage.getItem("nectar_rememberMe");
+    const rememberMe = localStorage.getItem("nectar_remember");
     const username = localStorage.getItem("nectar_username");
     const password = localStorage.getItem("nectar_password");
 
@@ -47,11 +47,11 @@ export const LoginForm = () => {
           secret
         ).toString();
 
-        localStorage.setItem("nectar_rememberMe", values.remember.toString());
+        localStorage.setItem("nectar_remember", values.remember.toString());
         localStorage.setItem("nectar_username", values.username.toString());
         localStorage.setItem("nectar_password", encryptPass);
       } else {
-        localStorage.removeItem("nectar_rememberMe");
+        localStorage.removeItem("nectar_remember");
         localStorage.removeItem("nectar_username");
         localStorage.removeItem("nectar_password");
       }
@@ -107,7 +107,7 @@ export const LoginForm = () => {
           prefix={<LockOutlined />}
         />
       </Form.Item>
-      <Form.Item name="remember" valuePropName="checked" noStyle>
+      <Form.Item name="remember" noStyle>
         <Checkbox id="remember">Lembrar de mim</Checkbox>
       </Form.Item>
 
