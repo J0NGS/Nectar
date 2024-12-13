@@ -16,7 +16,6 @@ import { isTokenValid } from "@/utils/helpers";
 import { useLocation, useNavigate } from "react-router-dom";
 import { UserService } from "@/services/userService/service";
 import { toast } from "react-toastify";
-import { Role } from "@/types/authTypes";
 
 type AuthContextType = {
   isAuthenticated: boolean;
@@ -79,7 +78,7 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
   }, [pathName]);
 
   const handleJWTToken = async (token: string) => {
-    const { sub, UUID, ROLE, AUTHORITIES } = decodeJwt(token);
+    const { sub, UUID, ROLE, AUTHORITIES, name } = decodeJwt(token);
 
     localStorage.setItem(nextAuthTokenName, token);
     const privilegs = AUTHORITIES as { authority: string }[];
@@ -89,6 +88,7 @@ export function AuthProvider({ children }: AuthContextProviderProps) {
       role: ROLE as string,
       username: sub,
       authorities: privilegs?.map((a: { authority: string }) => a.authority),
+      name: name as string,
     });
 
     if (pathName === "/login" || pathName === "/register") {
