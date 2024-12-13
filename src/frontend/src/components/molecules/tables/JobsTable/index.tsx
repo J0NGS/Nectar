@@ -1,10 +1,55 @@
-import { Job } from "@/types/entitysType";
+import { Job, JobsStatus } from "@/types/entitysType";
 import { formatDate } from "@/utils/formaters/formatDate";
-import { Table, TableProps } from "antd";
+import { Table, TableProps, Typography } from "antd";
 import { ColumnProps } from "antd/es/table";
+import { ActionsMenu } from "../../ActionsMenu";
 
-export const JobsTable = ({ ...rest }: TableProps<Job>) => {
+interface Props extends TableProps<Job> {
+  onEdit?: (manager: Job) => void;
+  onCancel?: (manager: Job) => void;
+  onView?: (manager: Job) => void;
+  onProcess?: (manager: Job) => void;
+}
+
+export const JobsTable = ({
+  onCancel,
+  onEdit,
+  onProcess,
+  onView,
+  ...rest
+}: Props) => {
+  const mountCustomActions = (job: Job) => {
+    const actions = [];
+
+    if (onCancel && job.status != JobsStatus.CANCELED) {
+      actions.push({
+        label: "Cancelar",
+        on: () => onCancel(job),
+      });
+    }
+
+    if (onProcess && job.status === JobsStatus.IN_PROGRESS) {
+      actions.push({
+        label: "Processar",
+        on: () => onProcess(job),
+      });
+    }
+
+    return actions;
+  };
+
   const columns: ColumnProps<Job>[] = [
+    {
+      title: "Ind.",
+      dataIndex: "id",
+      key: "id",
+      className: "text-sm",
+      render: (_, item) => (
+        <Typography.Link onClick={() => onView?.(item)}>
+          {item.id?.substring(0, 8)}
+        </Typography.Link>
+      ),
+    },
     {
       title: "Produtor",
       dataIndex: "beekeeper",
@@ -44,6 +89,18 @@ export const JobsTable = ({ ...rest }: TableProps<Job>) => {
       dataIndex: "waste",
       key: "waste",
       render: (_, { waste }) => (waste ? waste / 100 : 0 + "Kg"),
+    },
+    {
+      title: "Ações",
+      dataIndex: "actions",
+      key: "actions",
+      render: (_, item) => (
+        <ActionsMenu
+          onEdit={onEdit ? () => onEdit?.(item) : undefined}
+          onView={onView ? () => onView?.(item) : undefined}
+          actions={mountCustomActions(item)}
+        />
+      ),
     },
   ];
 

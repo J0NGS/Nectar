@@ -8,6 +8,7 @@ import { ManagerService } from "@/services/managerService/service";
 import { ManagerTable } from "@/components/molecules/tables/ManagerTable";
 import { BasePagination } from "@/components/atoms/BasePagination";
 import { CreateManagerModal } from "@/components/molecules/modais/CreateManagerModal";
+import { useNavigate } from "react-router-dom";
 
 export const GestorPage: React.FC = () => {
   const [resource, setResource] = useState<Pageable<Manager>>();
@@ -17,6 +18,12 @@ export const GestorPage: React.FC = () => {
 
   const [createManagerModal, setCreateManagerModal] = useState<boolean>(false);
   const [selectedEditManager, setSelectedEditManager] = useState<Manager>();
+
+  const navigate = useNavigate();
+
+  const handleView = (manager: Manager) => {
+    navigate(`/gestor/${manager.id}`);
+  };
 
   const fetchPage = async () => {
     setLoading(true);
@@ -72,6 +79,8 @@ export const GestorPage: React.FC = () => {
             dataSource={resource?.content ?? []}
             pagination={false}
             loading={loading}
+            onView={handleView}
+            onEdit={(manager) => setSelectedEditManager(manager)}
           />
           <BasePagination page={page} setPage={setPage} pageable={resource} />
         </Flex>

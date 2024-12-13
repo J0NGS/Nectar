@@ -2,19 +2,25 @@ import { Button, Flex, Radio, Typography } from "antd";
 import Search from "antd/es/input/Search";
 import { PlusOutlined } from "@ant-design/icons";
 import { ProdutorTable } from "../../molecules/tables/ProdutorTable";
-import { dataSource } from "./dataSourceMock";
 import { Beekeeper } from "@/types/entitysType";
 import { Pageable } from "@/types";
 import { useEffect, useState } from "react";
 import { BeekeepersService } from "@/services/beekeepersService/service";
 import { BasePagination } from "@/components/atoms/BasePagination";
 import { CreateBeekeeperModal } from "@/components/molecules/modais/CreateBeekeeperModal";
+import { useNavigate } from "react-router-dom";
 
 export const ProdutorPage: React.FC = () => {
   const [resource, setResource] = useState<Pageable<Beekeeper>>();
   const [status, setStatus] = useState<string>("ACTIVE");
   const [page, setPage] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const navigate = useNavigate();
+
+  const handleView = (manager: Beekeeper) => {
+    navigate(`/apicultor/${manager.id}`);
+  };
 
   const [createBeekeeperModal, setCreateBeekeeperModal] =
     useState<boolean>(false);
@@ -75,6 +81,8 @@ export const ProdutorPage: React.FC = () => {
             dataSource={resource?.content ?? []}
             pagination={false}
             loading={loading}
+            onView={handleView}
+            onEdit={(manager) => setSelectedEditBeekeeper(manager)}
           />
 
           <BasePagination page={page} setPage={setPage} pageable={resource} />

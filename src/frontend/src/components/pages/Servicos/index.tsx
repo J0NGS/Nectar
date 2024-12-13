@@ -7,6 +7,7 @@ import { Job } from "@/types/entitysType";
 import { BasePagination } from "@/components/atoms/BasePagination";
 import { JobsService } from "@/services/JobsService/service";
 import { CreateJobsModal } from "@/components/molecules/modais/CreateJobsModal";
+import { useNavigate } from "react-router-dom";
 
 export const ServicosPage: React.FC = () => {
   const [resource, setResource] = useState<Pageable<Job>>();
@@ -16,6 +17,12 @@ export const ServicosPage: React.FC = () => {
 
   const [createJobModal, setCreateJobModal] = useState<boolean>(false);
   const [selectedEditJob, setSelectedEditJob] = useState<Job>();
+
+  const navigate = useNavigate();
+
+  const handleView = (manager: Job) => {
+    navigate(`/servico/${manager.id}`);
+  };
 
   const fetchJobs = async () => {
     setLoading(true);
@@ -69,6 +76,8 @@ export const ServicosPage: React.FC = () => {
             dataSource={resource?.content ?? []}
             pagination={false}
             loading={loading}
+            onView={handleView}
+            onEdit={(manager) => setSelectedEditJob(manager)}
           />
           <BasePagination page={page} setPage={setPage} pageable={resource} />
         </Flex>

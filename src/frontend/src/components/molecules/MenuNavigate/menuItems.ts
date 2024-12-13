@@ -28,7 +28,7 @@ export const menuItems: MenuProps["items"] = [
     icon: React.createElement(UsergroupAddOutlined),
   },
   {
-    key: "/produtor",
+    key: "/apicultor",
     label: "Apicultores",
     icon: React.createElement(UserSwitchOutlined), // Corrigido com React.createElement
   },

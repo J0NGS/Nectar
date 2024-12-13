@@ -1,15 +1,38 @@
 import { Manager } from "@/types/entitysType";
 import { formatCpfCnpj } from "@/utils/formaters/format";
-import { Table, TableProps } from "antd";
+import { Table, TableProps, Typography } from "antd";
 import { ColumnProps } from "antd/es/table";
+import { ActionsMenu } from "../../ActionsMenu";
+import { UserStatus } from "@/types/authTypes";
 
-export const ManagerTable = ({ ...rest }: TableProps<Manager>) => {
+interface Props extends TableProps<Manager> {
+  onEdit?: (manager: Manager) => void;
+  onDelete?: (manager: Manager) => void;
+  onView?: (manager: Manager) => void;
+  onDesable?: (manager: Manager) => void;
+}
+
+export const ManagerTable = ({
+  onDelete,
+  onEdit,
+  onView,
+  onDesable,
+  ...rest
+}: Props) => {
   const columns: ColumnProps<Manager>[] = [
     {
       title: "Nome",
       dataIndex: "nome",
       key: "nome",
-      render: (_, { user }) => user?.profile?.name,
+      render: (_, { user, id }) => (
+        <Typography.Link
+          className=" w-full truncate"
+          title={user?.profile?.name}
+          onClick={() => onView?.({ id })}
+        >
+          {user?.profile?.name}
+        </Typography.Link>
+      ),
     },
     {
       title: "Documento",
@@ -30,6 +53,23 @@ export const ManagerTable = ({ ...rest }: TableProps<Manager>) => {
       key: "phone",
       render: (_, { user }) =>
         user?.profile?.phone ? user?.profile?.phone : "-",
+    },
+    {
+      title: "Ações",
+      dataIndex: "actions",
+      key: "actions",
+      render: (_, item) => (
+        <ActionsMenu
+          onDelete={
+            onDelete && item.user?.status == UserStatus.ACTIVE
+              ? () => onDelete?.(item)
+              : undefined
+          }
+          onEdit={onEdit ? () => onEdit?.(item) : undefined}
+          onView={onView ? () => onView?.(item) : undefined}
+          onDesable={onDesable ? () => onDesable?.(item) : undefined}
+        />
+      ),
     },
   ];
 

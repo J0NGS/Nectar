@@ -1,4 +1,4 @@
-import { Address } from '@/types';
+import { Address } from "@/types/authTypes";
 
 export const formatCpfCnpj = (value?: string) => {
   if (!value || value == '') return undefined;
