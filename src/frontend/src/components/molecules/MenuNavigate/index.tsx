@@ -11,12 +11,13 @@ export const MenuNavigate: React.FC<MenuProps> = ({...rest}) => {
 
   return (
     <Menu
-      className="h-full"
+      className="h-full border-none"
       theme="light"
       mode="inline"
       defaultSelectedKeys={["/dashboard"]}
       items={menuItems}
       onClick={handleMenuClick}
+      style={{borderInlineEnd: "none"}}
       {...rest}
     />
   );

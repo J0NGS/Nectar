@@ -8,7 +8,10 @@ export const theme: ThemeConfig = {
   },
   components:{
     Menu:{
-      iconSize:25
+      iconSize:25,
+      colorBgContainer: "#FFB300",
+      colorPrimary: "#FFB300",
+      colorText: "#FFF",
     },
     Button:{
       borderRadius:2,
@@ -17,7 +20,7 @@ export const theme: ThemeConfig = {
       borderRadius:2
     },
     Layout:{
-      headerBg: "linear-gradient(90deg, rgba(249,208,12,1) 0%, rgba(255,198,19,1) 47%, rgba(255,179,0,1) 100%)",
+      headerBg: "#fff",
       headerColor: "#fff",
     },
   }

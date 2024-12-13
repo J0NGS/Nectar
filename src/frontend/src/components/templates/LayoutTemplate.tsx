@@ -10,23 +10,41 @@ import { MenuNavigate } from "../molecules/MenuNavigate";
 export const LayoutTemplate: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
-    token: { colorBgContainer },
+    token: { colorBgContainer, colorPrimary },
   } = theme.useToken();
+
+  
   return (
-    <Layout className="h-screen">
-      <HeaderLayout style={{ padding: 0 }} />
-      <Layout>
-        <Sider
-          collapsible
-          collapsed={collapsed}
-          onCollapse={(value) => setCollapsed(value)}
-        >
-          <MenuNavigate />
-        </Sider>
+    <Layout hasSider className="h-screen">
+      <Sider
+        style={{ position: "fixed", zIndex: 1, height: "100vh" }}
+        collapsed={collapsed}
+        onCollapse={setCollapsed}
+        className="bg-primary"
+      >
+        <div className="flex items-center w-full justify-center p-4">
+         <span className="font-extrabold text-xl text-[#FFF]">NECTAR</span>
+        </div>
+        <MenuNavigate />
+      </Sider>
+      <Layout style={{ marginInlineStart: 200, height: 'calc(100% - 24px)'}}>
+        <HeaderLayout
+          style={{
+            position: "fixed",
+            width: "calc(100% - 200px)",
+            zIndex: 1,
+            top: 0,
+          }}
+        />
         <Content
-          className="mx-6 my-6 p-6 min-h-72 rounded-md"
+          className="p-6 rounded-md"
           style={{
             background: colorBgContainer,
+            margin: "85px 16px 0 16px",
+            overflow: "scroll",
+            overflowX: "hidden",
+            overflowY: "visible",
+            scrollbarWidth: "none",
           }}
         >
           <Outlet />
