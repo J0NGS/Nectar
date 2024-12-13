@@ -3,6 +3,8 @@ import { formatDate } from "@/utils/formaters/formatDate";
 import { Table, TableProps, Typography } from "antd";
 import { ColumnProps } from "antd/es/table";
 import { ActionsMenu } from "../../ActionsMenu";
+import { productTypeSerialize } from "@/utils/serializers";
+import { JobStatusTag } from "@/components/atoms/JobStatusTag";
 
 interface Props extends TableProps<Job> {
   onEdit?: (manager: Job) => void;
@@ -66,7 +68,7 @@ export const JobsTable = ({
       title: "Tipo Processamento",
       dataIndex: "productType",
       key: "productType",
-      render: (_, { productType }) => productType,
+      render: (_, { productType }) => productTypeSerialize(productType),
     },
     {
       title: "Recebido/Entregue",
@@ -76,6 +78,12 @@ export const JobsTable = ({
         `${weight / 100}Kg /${
           postProcessingWeight ? postProcessingWeight / 100 : 0
         }Kg`,
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (_, { status }) => <JobStatusTag status={status} />,
     },
     {
       title: "Arrecadado",

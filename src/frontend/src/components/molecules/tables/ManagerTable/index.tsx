@@ -4,6 +4,7 @@ import { Table, TableProps, Typography } from "antd";
 import { ColumnProps } from "antd/es/table";
 import { ActionsMenu } from "../../ActionsMenu";
 import { UserStatus } from "@/types/authTypes";
+import { UserStatusTag } from "@/components/atoms/UserStatusTag";
 
 interface Props extends TableProps<Manager> {
   onEdit?: (manager: Manager) => void;
@@ -26,11 +27,12 @@ export const ManagerTable = ({
       key: "nome",
       render: (_, { user, id }) => (
         <Typography.Link
-          className=" w-full truncate"
+          className=" w-full truncate flex items-center gap-2"
           title={user?.profile?.name}
           onClick={() => onView?.({ id })}
         >
           {user?.profile?.name}
+          <UserStatusTag status={user?.status} />
         </Typography.Link>
       ),
     },

@@ -4,6 +4,7 @@ import { Table, TableProps, Typography } from "antd";
 import { ColumnProps } from "antd/es/table";
 import { ActionsMenu } from "../../ActionsMenu";
 import { UserStatus } from "@/types/authTypes";
+import { UserStatusTag } from "@/components/atoms/UserStatusTag";
 
 interface Props extends TableProps<Beekeeper> {
   onEdit?: (manager: Beekeeper) => void;
@@ -26,14 +27,16 @@ export const ProdutorTable = ({
       key: "nome",
       render: (_, { profile, id, status }) => (
         <Typography.Link
-          className=" w-full truncate"
+          className=" w-full truncate flex items-center gap-2"
           title={profile?.name}
           onClick={() => onView?.({ id, status })}
         >
           {profile?.name}
+          <UserStatusTag status={status} />
         </Typography.Link>
       ),
     },
+
     {
       title: "Email",
       dataIndex: "email",
