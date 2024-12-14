@@ -9,6 +9,7 @@ import { BeekeepersService } from "@/services/beekeepersService/service";
 import { BasePagination } from "@/components/atoms/BasePagination";
 import { CreateBeekeeperModal } from "@/components/molecules/modais/CreateBeekeeperModal";
 import { useNavigate } from "react-router-dom";
+import { User } from "@/types/authTypes";
 
 export const ProdutorPage: React.FC = () => {
   const [resource, setResource] = useState<Pageable<Beekeeper>>();
@@ -20,6 +21,12 @@ export const ProdutorPage: React.FC = () => {
 
   const handleView = (manager: Beekeeper) => {
     navigate(`/apicultor/${manager.id}`);
+  };
+
+  const handleManagerView = (user: User) => {
+    console.log("handleManagerView", user);
+
+    navigate(`/gestor/${user?.id}`);
   };
 
   const [createBeekeeperModal, setCreateBeekeeperModal] =
@@ -83,6 +90,7 @@ export const ProdutorPage: React.FC = () => {
             loading={loading}
             onView={handleView}
             onEdit={(manager) => setSelectedEditBeekeeper(manager)}
+            onVewOwner={handleManagerView}
           />
 
           <BasePagination page={page} setPage={setPage} pageable={resource} />

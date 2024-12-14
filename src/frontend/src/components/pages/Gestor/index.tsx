@@ -22,7 +22,7 @@ export const GestorPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleView = (manager: Manager) => {
-    navigate(`/gestor/${manager.id}`);
+    navigate(`/gestor/${manager.user?.id}`);
   };
 
   const fetchPage = async () => {
