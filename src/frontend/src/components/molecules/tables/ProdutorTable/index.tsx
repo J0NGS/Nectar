@@ -1,9 +1,9 @@
-import { Beekeeper } from "@/types/entitysType";
+import { Beekeeper, Manager } from "@/types/entitysType";
 import { formatPhone } from "@/utils/formaters/format";
 import { Table, TableProps, Typography } from "antd";
 import { ColumnProps } from "antd/es/table";
 import { ActionsMenu } from "../../ActionsMenu";
-import { UserStatus } from "@/types/authTypes";
+import { User, UserStatus } from "@/types/authTypes";
 import { UserStatusTag } from "@/components/atoms/UserStatusTag";
 
 interface Props extends TableProps<Beekeeper> {
@@ -11,6 +11,7 @@ interface Props extends TableProps<Beekeeper> {
   onDelete?: (manager: Beekeeper) => void;
   onView?: (manager: Beekeeper) => void;
   onDesable?: (manager: Beekeeper) => void;
+  onVewOwner?: (owner: User) => void;
 }
 
 export const ProdutorTable = ({
@@ -18,6 +19,7 @@ export const ProdutorTable = ({
   onEdit,
   onView,
   onDesable,
+  onVewOwner,
   ...rest
 }: Props) => {
   const columns: ColumnProps<Beekeeper>[] = [
@@ -54,7 +56,15 @@ export const ProdutorTable = ({
       title: "Responsável",
       dataIndex: "responsableName",
       key: "responsableName",
-      render: (_, { owner }) => owner?.profile?.name,
+      render: (_, { owner }) => (
+        <Typography.Link
+          className=" w-full truncate flex items-center gap-2"
+          title={owner?.profile?.name}
+          onClick={() => owner && onVewOwner?.(owner)}
+        >
+          {owner?.profile?.name}
+        </Typography.Link>
+      ),
     },
     {
       title: "Ações",

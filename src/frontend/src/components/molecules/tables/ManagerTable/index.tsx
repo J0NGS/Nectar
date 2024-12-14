@@ -29,7 +29,7 @@ export const ManagerTable = ({
         <Typography.Link
           className=" w-full truncate flex items-center gap-2"
           title={user?.profile?.name}
-          onClick={() => onView?.({ id })}
+          onClick={() => onView?.({ id, user })}
         >
           {user?.profile?.name}
           <UserStatusTag status={user?.status} />
