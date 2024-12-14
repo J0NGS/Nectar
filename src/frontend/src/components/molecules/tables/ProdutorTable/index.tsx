@@ -5,6 +5,8 @@ import { ColumnProps } from "antd/es/table";
 import { ActionsMenu } from "../../ActionsMenu";
 import { User, UserStatus } from "@/types/authTypes";
 import { UserStatusTag } from "@/components/atoms/UserStatusTag";
+import { useContext } from "react";
+import { AuthContext } from "@/contexts/AuthContext";
 
 interface Props extends TableProps<Beekeeper> {
   onEdit?: (manager: Beekeeper) => void;
@@ -22,6 +24,8 @@ export const ProdutorTable = ({
   onVewOwner,
   ...rest
 }: Props) => {
+  const { user } = useContext(AuthContext);
+
   const columns: ColumnProps<Beekeeper>[] = [
     {
       title: "Nome",
@@ -57,13 +61,19 @@ export const ProdutorTable = ({
       dataIndex: "responsableName",
       key: "responsableName",
       render: (_, { owner }) => (
-        <Typography.Link
-          className=" w-full truncate flex items-center gap-2"
-          title={owner?.profile?.name}
-          onClick={() => owner && onVewOwner?.(owner)}
-        >
-          {owner?.profile?.name}
-        </Typography.Link>
+        <>
+          {user?.username === owner?.auth?.username ? (
+            owner?.profile?.name
+          ) : (
+            <Typography.Link
+              className=" w-full truncate flex items-center gap-2"
+              title={owner?.profile?.name}
+              onClick={() => owner && onVewOwner?.(owner)}
+            >
+              {owner?.profile?.name}
+            </Typography.Link>
+          )}
+        </>
       ),
     },
     {
