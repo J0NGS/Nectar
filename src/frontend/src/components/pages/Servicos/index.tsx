@@ -3,7 +3,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import { JobsTable } from "@/components/molecules/tables/JobsTable";
 import { Pageable } from "@/types";
 import { useEffect, useState } from "react";
-import { Job } from "@/types/entitysType";
+import { Beekeeper, Job } from "@/types/entitysType";
 import { BasePagination } from "@/components/atoms/BasePagination";
 import { JobsService } from "@/services/JobsService/service";
 import { CreateJobsModal } from "@/components/molecules/modais/CreateJobsModal";
@@ -20,8 +20,12 @@ export const ServicosPage: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const handleView = (manager: Job) => {
-    navigate(`/servico/${manager.id}`);
+  const handleView = (job: Job) => {
+    navigate(`/servico/${job.id}`);
+  };
+
+  const handleBeekeeperView = (beekeeper: Beekeeper) => {
+    navigate(`/apicultor/${beekeeper.id}`);
   };
 
   const fetchJobs = async () => {
@@ -77,6 +81,7 @@ export const ServicosPage: React.FC = () => {
             pagination={false}
             loading={loading}
             onView={handleView}
+            onViewBeekeeper={handleBeekeeperView}
             onEdit={(manager) => setSelectedEditJob(manager)}
           />
           <BasePagination page={page} setPage={setPage} pageable={resource} />

@@ -1,16 +1,19 @@
-import { Job, JobsStatus } from "@/types/entitysType";
+import { Beekeeper, Job, JobsStatus } from "@/types/entitysType";
 import { formatDate } from "@/utils/formaters/formatDate";
 import { Table, TableProps, Typography } from "antd";
 import { ColumnProps } from "antd/es/table";
 import { ActionsMenu } from "../../ActionsMenu";
 import { productTypeSerialize } from "@/utils/serializers";
 import { JobStatusTag } from "@/components/atoms/JobStatusTag";
+import { useMemo } from "react";
 
 interface Props extends TableProps<Job> {
-  onEdit?: (manager: Job) => void;
-  onCancel?: (manager: Job) => void;
-  onView?: (manager: Job) => void;
-  onProcess?: (manager: Job) => void;
+  onEdit?: (job: Job) => void;
+  onCancel?: (job: Job) => void;
+  onView?: (job: Job) => void;
+  onProcess?: (job: Job) => void;
+  onViewBeekeeper?: (beekeeper: Beekeeper) => void;
+  noBeekeeper?: boolean;
 }
 
 export const JobsTable = ({
@@ -18,6 +21,8 @@ export const JobsTable = ({
   onEdit,
   onProcess,
   onView,
+  onViewBeekeeper,
+  noBeekeeper = false,
   ...rest
 }: Props) => {
   const mountCustomActions = (job: Job) => {
@@ -40,8 +45,80 @@ export const JobsTable = ({
     return actions;
   };
 
-  const columns: ColumnProps<Job>[] = [
-    {
+  const columns: ColumnProps<Job>[] = useMemo(() => {
+    const columns: ColumnProps<Job>[] = [
+      {
+        title: "Iniciado em",
+        dataIndex: "createdAt",
+        key: "createdAt",
+        render: (_, { createdAt }) => formatDate(createdAt),
+      },
+      {
+        title: "Tipo Processamento",
+        dataIndex: "productType",
+        key: "productType",
+        render: (_, { productType }) => productTypeSerialize(productType),
+      },
+      {
+        title: "Recebido/Entregue",
+        dataIndex: "weight",
+        key: "weight",
+        render: (_, { weight, postProcessingWeight }) =>
+          `${weight / 100}Kg /${
+            postProcessingWeight ? postProcessingWeight / 100 : 0
+          }Kg`,
+      },
+      {
+        title: "Status",
+        dataIndex: "status",
+        key: "status",
+        render: (_, { status }) => <JobStatusTag status={status} />,
+      },
+      {
+        title: "Arrecadado",
+        dataIndex: "postProcessingRevenue",
+        key: "postProcessingRevenue",
+        render: (_, { postProcessingRevenue }) =>
+          postProcessingRevenue ? postProcessingRevenue / 100 : 0 + "Kg",
+      },
+      {
+        title: "Perdido",
+        dataIndex: "waste",
+        key: "waste",
+        render: (_, { waste }) => (waste ? waste / 100 : 0 + "Kg"),
+      },
+      {
+        title: "Ações",
+        dataIndex: "actions",
+        key: "actions",
+        render: (_, item) => (
+          <ActionsMenu
+            onEdit={onEdit ? () => onEdit?.(item) : undefined}
+            onView={onView ? () => onView?.(item) : undefined}
+            actions={mountCustomActions(item)}
+          />
+        ),
+      },
+    ];
+
+    if (!noBeekeeper) {
+      columns.unshift({
+        title: "Produtor",
+        dataIndex: "beekeeper",
+        key: "nome",
+        render: (_, { beekeeper }) => (
+          <Typography.Link
+            className="w-full truncate"
+            onClick={() => beekeeper && onViewBeekeeper?.(beekeeper)}
+            title={beekeeper?.profile?.name}
+          >
+            {beekeeper?.profile?.name}
+          </Typography.Link>
+        ),
+      });
+    }
+
+    columns.unshift({
       title: "Ind.",
       dataIndex: "id",
       key: "id",
@@ -51,66 +128,10 @@ export const JobsTable = ({
           {item.id?.substring(0, 8)}
         </Typography.Link>
       ),
-    },
-    {
-      title: "Produtor",
-      dataIndex: "beekeeper",
-      key: "nome",
-      render: (_, { beekeeper }) => beekeeper?.profile?.name,
-    },
-    {
-      title: "Iniciado em",
-      dataIndex: "createdAt",
-      key: "createdAt",
-      render: (_, { createdAt }) => formatDate(createdAt),
-    },
-    {
-      title: "Tipo Processamento",
-      dataIndex: "productType",
-      key: "productType",
-      render: (_, { productType }) => productTypeSerialize(productType),
-    },
-    {
-      title: "Recebido/Entregue",
-      dataIndex: "weight",
-      key: "weight",
-      render: (_, { weight, postProcessingWeight }) =>
-        `${weight / 100}Kg /${
-          postProcessingWeight ? postProcessingWeight / 100 : 0
-        }Kg`,
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: (_, { status }) => <JobStatusTag status={status} />,
-    },
-    {
-      title: "Arrecadado",
-      dataIndex: "postProcessingRevenue",
-      key: "postProcessingRevenue",
-      render: (_, { postProcessingRevenue }) =>
-        postProcessingRevenue ? postProcessingRevenue / 100 : 0 + "Kg",
-    },
-    {
-      title: "Perdido",
-      dataIndex: "waste",
-      key: "waste",
-      render: (_, { waste }) => (waste ? waste / 100 : 0 + "Kg"),
-    },
-    {
-      title: "Ações",
-      dataIndex: "actions",
-      key: "actions",
-      render: (_, item) => (
-        <ActionsMenu
-          onEdit={onEdit ? () => onEdit?.(item) : undefined}
-          onView={onView ? () => onView?.(item) : undefined}
-          actions={mountCustomActions(item)}
-        />
-      ),
-    },
-  ];
+    });
+
+    return columns;
+  }, [noBeekeeper]);
 
   return <Table columns={columns} {...rest} />;
 };
