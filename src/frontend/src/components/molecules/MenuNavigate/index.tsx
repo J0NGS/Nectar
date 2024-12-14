@@ -1,9 +1,17 @@
 import { Menu, MenuProps } from "antd";
 import { menuItems } from "./menuItems";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useMemo } from "react";
 
-export const MenuNavigate: React.FC<MenuProps> = ({...rest}) => {
+export const MenuNavigate: React.FC<MenuProps> = ({ ...rest }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const activePath = useMemo(() => {
+    const path = location.pathname;
+    const pathSplit = path.split("/");
+    return `/${pathSplit[1]}`;
+  }, [location.pathname]);
 
   const handleMenuClick: MenuProps["onClick"] = (e) => {
     navigate(e.key); // Navega para a rota correspondente
@@ -14,10 +22,10 @@ export const MenuNavigate: React.FC<MenuProps> = ({...rest}) => {
       className="h-full border-none"
       theme="light"
       mode="inline"
-      defaultSelectedKeys={["/dashboard"]}
+      selectedKeys={[activePath]}
       items={menuItems}
       onClick={handleMenuClick}
-      style={{borderInlineEnd: "none"}}
+      style={{ borderInlineEnd: "none" }}
       {...rest}
     />
   );
