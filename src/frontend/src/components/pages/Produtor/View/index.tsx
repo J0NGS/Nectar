@@ -8,7 +8,7 @@ import { Pageable } from "@/types";
 import { Beekeeper, Job } from "@/types/entitysType";
 import { Card, Flex, Radio } from "antd";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const ViewBeekeeperPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -18,10 +18,15 @@ export const ViewBeekeeperPage: React.FC = () => {
   const [jobStatus, setJobStatus] = useState<JobsStatusFilter>(
     JobsStatusFilter.ALL
   );
+  const navigate = useNavigate();
 
   const [page, setPage] = useState(0);
 
   const { id } = useParams();
+
+  const handleView = (job: Job) => {
+    navigate(`/servico/${job.id}`);
+  };
 
   const fetchResource = async (resourceId: string) => {
     setResourceLoading(true);
@@ -82,6 +87,7 @@ export const ViewBeekeeperPage: React.FC = () => {
             pagination={false}
             loading={loading}
             noBeekeeper={true}
+            onView={handleView}
           />
           <BasePagination
             page={page}
