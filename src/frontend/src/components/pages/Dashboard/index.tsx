@@ -1,6 +1,10 @@
 import { BasePagination } from "@/components/atoms/BasePagination";
 import { JobsTable } from "@/components/molecules/tables/JobsTable";
-import { Graph, ItensGraph } from "@/services/dashboarService/dtos";
+import {
+  Graph,
+  ItensGraph,
+  MonthlyBoard,
+} from "@/services/dashboarService/dtos";
 import { DashboarService } from "@/services/dashboarService/service";
 import { Pageable } from "@/types";
 import { Job } from "@/types/entitysType";
@@ -14,6 +18,7 @@ const FlowGraph = React.lazy(() => import("@/components/molecules/FlowGraph"));
 export const DashboardPage: React.FC = () => {
   const [resource, setResource] = useState<Pageable<Job>>();
   const [resourceGraph, setResourceGraph] = useState<ItensGraph[]>([]);
+  const [resourceBoard, setResourceBoard] = useState<MonthlyBoard>();
 
   const [page, setPage] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
@@ -25,7 +30,7 @@ export const DashboardPage: React.FC = () => {
     try {
       const { data } = await DashboarService.getPage(page, {
         status: jobStatus,
-        moth: date,
+        month: date,
       });
       console.log("fetchJobs [DashboardPage]", data);
       setResource(data);
@@ -81,8 +86,23 @@ export const DashboardPage: React.FC = () => {
     }
   };
 
+  const fetchBoardData = async () => {
+    setLoading(true);
+    try {
+      const { data } = await DashboarService.monthlyBoard(date);
+      setResourceBoard(data);
+
+      console.log("fetchBoardData", data);
+    } catch (error) {
+      console.error("fetchGraphData", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchGraphData();
+    fetchBoardData();
   }, [date]);
 
   useEffect(() => {
