@@ -1,4 +1,5 @@
 import { LoadingContent } from "@/components/atoms/LoadingContent";
+import { ProfileWitchEmailDescription } from "@/components/molecules/Descriptions/ProfileWitchEmailDescription";
 import { ManagerService } from "@/services/managerService/service";
 import { Manager } from "@/types/entitysType";
 import { useEffect, useState } from "react";
@@ -29,7 +30,15 @@ export const ViewManagerPage: React.FC = () => {
   return (
     <div>
       <LoadingContent isLoading={resourceLoading} />
-      {resource?.user?.profile?.name}
+      <ProfileWitchEmailDescription
+        tittle="Gestor"
+        data={{
+          ...resource?.user?.profile,
+          owner: resource?.org,
+          email: resource?.user?.auth?.username,
+          status: resource?.user?.status,
+        }}
+      />
     </div>
   );
 };

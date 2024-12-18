@@ -49,7 +49,7 @@ export interface Job {
 export interface Beekeeper {
   id?: string; // UUID, gerado automaticamente se não fornecido
   status: UserStatus; // Status do usuário, padrão UserStatus.ACTIVE
-  email?: string | null; // Email pode ser opcional ou nulo
+  email?: string; // Email pode ser opcional ou nulo
   profile?: Profile; // Relacionamento com Profile
   owner?: User; // ID do proprietário, referência para User
   org?: User; // ID da organização, referência para User
@@ -59,6 +59,6 @@ export interface Beekeeper {
 export interface Manager {
   id?: string;
   user?: User;
-  org?: User; 
-  createdAt?: string
+  org?: User;
+  createdAt?: string;
 }
