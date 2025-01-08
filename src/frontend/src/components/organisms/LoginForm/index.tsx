@@ -14,11 +14,13 @@ export const LoginForm = () => {
   const secret = import.meta.env.VITE_SECRET_KEY || "";
 
   useEffect(() => {
+    if (!form) return;
+
     const rememberMe = localStorage.getItem("nectar_remember");
     const username = localStorage.getItem("nectar_username");
     const password = localStorage.getItem("nectar_password");
 
-    const remember = rememberMe === "true";
+    const remember = rememberMe == "true";
 
     if (remember && username && password) {
       const decryptPass = CryptoJS.AES.decrypt(password, secret).toString(
@@ -31,7 +33,7 @@ export const LoginForm = () => {
         remember: remember,
       });
     }
-  }, [secret]);
+  }, [secret, form]);
 
   const onFinish = async (values: LoginType) => {
     try {
@@ -76,6 +78,7 @@ export const LoginForm = () => {
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       layout="vertical"
+      form={form}
     >
       <Form.Item
         name="username"
@@ -107,7 +110,7 @@ export const LoginForm = () => {
           prefix={<LockOutlined />}
         />
       </Form.Item>
-      <Form.Item name="remember" noStyle>
+      <Form.Item name="remember" noStyle valuePropName="checked">
         <Checkbox id="remember">Lembrar de mim</Checkbox>
       </Form.Item>
 

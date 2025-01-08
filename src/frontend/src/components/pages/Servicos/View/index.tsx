@@ -1,4 +1,6 @@
 import { LoadingContent } from "@/components/atoms/LoadingContent";
+import { JobDescription } from "@/components/molecules/Descriptions/JobDescription";
+import { PostProcessingDescription } from "@/components/molecules/Descriptions/PostProcessingDescription";
 import { JobsService } from "@/services/JobsService/service";
 import { Job } from "@/types/entitysType";
 import { useEffect, useState } from "react";
@@ -27,8 +29,22 @@ export const ViewJobPage: React.FC = () => {
   }, [id]);
 
   return (
-    <div>
-      <LoadingContent isLoading={resourceLoading} /> {resource?.productType}
+    <div className="flex flex-col gap-4">
+      <LoadingContent isLoading={resourceLoading} />
+      <JobDescription job={resource} />
+
+      {resource?.postProcessingBales && (
+        <div className="mt-4">
+          <PostProcessingDescription
+            postProcessing={{
+              postProcessingBales: resource?.postProcessingBales,
+              postProcessingRevenue: resource?.postProcessingRevenue,
+              postProcessingWeight: resource?.postProcessingWeight,
+              waste: resource?.waste,
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };

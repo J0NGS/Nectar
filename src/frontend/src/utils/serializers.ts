@@ -65,7 +65,7 @@ export const jobStatusSerialize = (status?: JobsStatus) => {
     case JobsStatus.CANCELED:
       return "Cancelado";
     case JobsStatus.IN_PROGRESS:
-      return "Em andamento";
+      return "Em progresso";
     case JobsStatus.CONCLUDED:
       return "Concluído";
     default:
