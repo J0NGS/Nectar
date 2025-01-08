@@ -25,11 +25,12 @@ export const GestorPage: React.FC = () => {
     navigate(`/gestor/${manager.user?.id}`);
   };
 
-  const fetchPage = async () => {
+  const fetchPage = async (name?:string) => {
     setLoading(true);
     try {
       const { data } = await ManagerService.getPage(page, {
         status,
+        name
       });
       console.log("fetchManagers", data);
       setResource(data);
@@ -61,7 +62,7 @@ export const GestorPage: React.FC = () => {
             <Search
               placeholder="Pesquise um produtor..."
               allowClear
-              onSearch={(value) => console.log(value)}
+              onSearch={(value) => fetchPage(value)}
               style={{ width: 304 }}
             />
             <Button
