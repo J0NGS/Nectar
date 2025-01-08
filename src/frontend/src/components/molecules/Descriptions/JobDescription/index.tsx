@@ -3,74 +3,39 @@ import { Job } from "@/types/entitysType";
 import { formatDate } from "@/utils/formaters/formatDate";
 import { formatDateAndTime } from "@/utils/formaters/formatTime";
 import { productTypeSerialize } from "@/utils/serializers";
-import { Descriptions } from "antd";
+import { Descriptions, DescriptionsProps } from "antd";
 
 interface JobDescriptionProps {
   job?: Job;
 }
 
 export const JobDescription: React.FC<JobDescriptionProps> = ({ job }) => {
+
+  const items: DescriptionsProps["items"] = [
+    { label: "Origem", children: job?.origin },
+    { label: "Aparência", children: job?.appearance },
+    ...job?.scent ? [{ label: "Cheiro", children: job?.scent}] : [],
+    ...job?.color ? [{ label: "Cor", children: job?.color }] : [],
+    { label: "Pesticidas", children: job?.pesticides ? "Sim" : "Não" },
+    { label: "Perda de Enxame", children: job?.hiveLoss ? "Sim" : "Não" },
+    { label: "Quantidade de Fardos", children: job?.quantityOfBales },
+    { label: "Peso Total", children: `${job?.weight ?? 0 / 100} kg` },
+    { label: "Data de Início", children: formatDate(job?.startAt) },
+    ...job?.observation ? [{ label: "Observações", children: job?.observation }] : [],
+    { label: "Tipo de Produto", children: productTypeSerialize(job?.productType) },
+    { label: "Status", children: <JobStatusTag status={job?.status} /> },
+    ...job?.beekeeper ? [{ label: "Apicultor", children: job?.beekeeper?.profile?.name }] : [],
+    ...job?.owner ? [{ label: "Responsável", children: job?.owner?.profile?.name }] : [],
+    ...job?.createdAt ? [{ label: "Criado Em", children: formatDateAndTime(job?.createdAt)}] : [],
+  ];
   return (
     <Descriptions
       title="Serviço"
       layout="vertical"
       column={{ xxl: 4, xl: 3, lg: 2, md: 1, sm: 1, xs: 1 }}
-    >
-      <Descriptions.Item label="Origem">{job?.origin}</Descriptions.Item>
-      <Descriptions.Item label="Aparência">{job?.appearance}</Descriptions.Item>
-
-      {job?.scent && (
-        <Descriptions.Item label="Cheiro">{job?.scent}</Descriptions.Item>
-      )}
-
-      {job?.color && (
-        <Descriptions.Item label="Cor">{job?.color}</Descriptions.Item>
-      )}
-
-      <Descriptions.Item label="Pesticidas">
-        {job?.pesticides ? "Sim" : "Não"}
-      </Descriptions.Item>
-      <Descriptions.Item label="Perda de Enxame">
-        {job?.hiveLoss ? "Sim" : "Não"}
-      </Descriptions.Item>
-      <Descriptions.Item label="Quantidade de Fardos">
-        {job?.quantityOfBales}
-      </Descriptions.Item>
-      <Descriptions.Item label="Peso Total">
-        {job?.weight ?? 0 / 100} kg
-      </Descriptions.Item>
-      <Descriptions.Item label="Data de Início">
-        {formatDate(job?.startAt)}
-      </Descriptions.Item>
-
-      {job?.observation && (
-        <Descriptions.Item label="Observações">
-          {job.observation}
-        </Descriptions.Item>
-      )}
-      <Descriptions.Item label="Tipo de Produto">
-        {productTypeSerialize(job?.productType)}
-      </Descriptions.Item>
-      <Descriptions.Item label="Status">
-        <JobStatusTag status={job?.status} />
-      </Descriptions.Item>
-      {job?.beekeeper && (
-        <Descriptions.Item label="Apicultor">
-          {job.beekeeper.profile?.name}
-        </Descriptions.Item>
-      )}
-
-      {job?.owner && (
-        <Descriptions.Item label="Responsável">
-          {job.owner.profile?.name}
-        </Descriptions.Item>
-      )}
-
-      {job?.createdAt && (
-        <Descriptions.Item label="Criado Em">
-          {formatDateAndTime(job.createdAt)}
-        </Descriptions.Item>
-      )}
-    </Descriptions>
+      items={items}
+      labelStyle={{ color: "black" }}
+      contentStyle={{ color: "gray" }}
+    /> 
   );
 };
