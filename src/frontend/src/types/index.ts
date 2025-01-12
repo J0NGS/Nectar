@@ -82,8 +82,18 @@ export interface UserType {
   password?: string;
   username?: string;
   document?: string;
+  phone?: string;
+  email?: string;
   role?: string;
   authorities?: string[];
+}
+
+export interface UserEdit {
+  name?: string;
+  email?: string;
+  document?: string;
+  phone?: string;
+  password?: string;
 }
 
 export interface LoginType {

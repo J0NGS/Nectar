@@ -1,4 +1,5 @@
-import { LoginType, ResponseDTO } from "../../types";
+import { User } from "@/types/authTypes";
+import { LoginType, ResponseDTO, UserEdit } from "../../types";
 import { BaseApi } from "../baseAPI";
 import { AbstractException } from "../handler/AbstractException";
 
@@ -18,5 +19,15 @@ export class UserService {
       throw new AbstractException("Alguma coisa aconteceu errado!");
 
     return res as ResponseDTO<string>;
+  }
+
+  static async getById(id: string):Promise<ResponseDTO<User>> {
+    const res = await API.get("/users/" + id);
+    return res as ResponseDTO<User>;
+  };
+
+  static async updateUser(userId:string, data:UserEdit): Promise<ResponseDTO<User>> {
+    const res = await API.put("/users/"+userId, data);
+    return res as ResponseDTO<User>;
   }
 }
