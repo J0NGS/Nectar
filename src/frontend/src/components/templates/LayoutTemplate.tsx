@@ -1,19 +1,31 @@
 import { Layout, theme } from "antd";
 import Sider from "antd/es/layout/Sider";
-
 import { Content } from "antd/es/layout/layout";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { HeaderLayout } from "../molecules/HeaderLayout";
 import { MenuNavigate } from "../molecules/MenuNavigate";
+import { OrgModal } from "../molecules/modais/OrgModal";
+import { AuthContext } from "@/contexts/AuthContext";
+import { UserService } from "@/services/userService/service";
+import { User } from "@/types/authTypes";
 
 export const LayoutTemplate: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
+  const [editOrgModal, setEditOrgModal] = useState(false);
+  const [initialData, setInitialData] = useState<User>();
+  const { user } = useContext(AuthContext);
   const {
-    token: { colorBgContainer, colorPrimary },
+    token: { colorBgContainer },
   } = theme.useToken();
 
-  
+  const onOpenOrg = async () => {
+    if(user?.id) {
+      const res = await UserService.getById(user.id);
+      setInitialData(res.data);
+      setEditOrgModal(!editOrgModal)
+    }
+  }
   return (
     <Layout hasSider className="h-screen">
       <Sider
@@ -35,6 +47,7 @@ export const LayoutTemplate: React.FC = () => {
             zIndex: 1,
             top: 0,
           }}
+          onClick={onOpenOrg}
         />
         <Content
           className="p-6 rounded-md"
@@ -50,6 +63,7 @@ export const LayoutTemplate: React.FC = () => {
           <Outlet />
         </Content>
       </Layout>
+      <OrgModal isOpen={editOrgModal} onClose={()=>setEditOrgModal(!editOrgModal)} initialData={initialData}/>
     </Layout>
   );
 };
