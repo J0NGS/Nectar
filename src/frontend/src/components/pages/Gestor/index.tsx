@@ -41,6 +41,18 @@ export const GestorPage: React.FC = () => {
     }
   };
 
+  const handleChangeStatus = async (manager: Manager) => {
+    setLoading(true);
+    try {
+      await ManagerService.disableManager(manager.id as string, manager.user?.status === "ACTIVE" ? "INACTIVE" : "ACTIVE");
+      fetchPage();
+    } catch (error) {
+      console.error("handleDisable", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchPage();
   }, [page, status]);
@@ -82,6 +94,8 @@ export const GestorPage: React.FC = () => {
             loading={loading}
             onView={handleView}
             onEdit={(manager) => setSelectedEditManager(manager)}
+            onDisable={status === "ACTIVE" ? (manager)=> handleChangeStatus(manager) : undefined}
+            onEnable={status === "INACTIVE" ? (manager)=> handleChangeStatus(manager) : undefined}
           />
           <BasePagination page={page} setPage={setPage} pageable={resource} />
         </Flex>

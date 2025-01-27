@@ -10,14 +10,16 @@ interface Props extends TableProps<Manager> {
   onEdit?: (manager: Manager) => void;
   onDelete?: (manager: Manager) => void;
   onView?: (manager: Manager) => void;
-  onDesable?: (manager: Manager) => void;
+  onDisable?: (manager: Manager) => void;
+  onEnable?: (manager: Manager) => void;
 }
 
 export const ManagerTable = ({
   onDelete,
   onEdit,
   onView,
-  onDesable,
+  onDisable,
+  onEnable,
   ...rest
 }: Props) => {
   const columns: ColumnProps<Manager>[] = [
@@ -69,7 +71,8 @@ export const ManagerTable = ({
           }
           onEdit={onEdit ? () => onEdit?.(item) : undefined}
           onView={onView ? () => onView?.(item) : undefined}
-          onDesable={onDesable ? () => onDesable?.(item) : undefined}
+          onDisable={onDisable ? () => onDisable?.(item) : undefined}
+          onEnable={onEnable ? () => onEnable?.(item) : undefined}
         />
       ),
     },
