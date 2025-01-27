@@ -12,7 +12,8 @@ interface Props extends TableProps<Beekeeper> {
   onEdit?: (manager: Beekeeper) => void;
   onDelete?: (manager: Beekeeper) => void;
   onView?: (manager: Beekeeper) => void;
-  onDesable?: (manager: Beekeeper) => void;
+  onDisable?: (manager: Beekeeper) => void;
+  onEnable?: (manager: Beekeeper) => void;
   onVewOwner?: (owner: User) => void;
 }
 
@@ -20,7 +21,8 @@ export const ProdutorTable = ({
   onDelete,
   onEdit,
   onView,
-  onDesable,
+  onDisable,
+  onEnable,
   onVewOwner,
   ...rest
 }: Props) => {
@@ -89,7 +91,8 @@ export const ProdutorTable = ({
           }
           onEdit={onEdit ? () => onEdit?.(item) : undefined}
           onView={onView ? () => onView?.(item) : undefined}
-          onDesable={onDesable ? () => onDesable?.(item) : undefined}
+          onDisable={onDisable ? () => onDisable?.(item) : undefined}
+          onEnable={onEnable ? () => onEnable?.(item) : undefined}
         />
       ),
     },

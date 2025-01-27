@@ -50,6 +50,18 @@ export const ProdutorPage: React.FC = () => {
     }
   };
 
+  const handleChangeStatus = async (beekeeper: Beekeeper) => {
+    setLoading(true);
+    try {
+      await BeekeepersService.disableBeekeeper(beekeeper.id as string, beekeeper.status === "ACTIVE" ? "INACTIVE" : "ACTIVE");
+      fetchPage();
+    } catch (error) {
+      console.error("handleDisable", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchPage();
   }, [page, status]);
@@ -91,6 +103,8 @@ export const ProdutorPage: React.FC = () => {
             loading={loading}
             onView={handleView}
             onEdit={(manager) => setSelectedEditBeekeeper(manager)}
+            onDisable={status === "ACTIVE" ? (beekeeper)=> handleChangeStatus(beekeeper) : undefined}
+            onEnable={status === "INACTIVE" ? (beekeeper)=> handleChangeStatus(beekeeper) : undefined}
             onVewOwner={handleManagerView}
           />
 
