@@ -39,7 +39,7 @@ export const DashboardPage: React.FC = () => {
     setLoading(true);
     try {
       const { data } = await DashboarService.monthlyBoard(date);
-      setResourceBoard(data); // Diretamente para resourceBoard
+      setResourceBoard(data);
     } catch (error) {
       console.error("Erro ao buscar dados mensais [fetchMonthlyData]:", error);
     } finally {
