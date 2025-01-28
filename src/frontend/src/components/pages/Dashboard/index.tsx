@@ -87,8 +87,8 @@ export const DashboardPage: React.FC = () => {
 
       setResourceGraph([
         ...recivedServices,
-        ...wasteOfServices,
         ...revenueOfServices,
+        ...wasteOfServices,
       ]);
     } catch (error) {
       console.error("fetchGraphData", error);
