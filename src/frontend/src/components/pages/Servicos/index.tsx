@@ -37,8 +37,6 @@ export const ServicosPage: React.FC = () => {
         status: jobStatus,
       });
 
-      console.log("fetchJobs", data);
-
       setResource(data);
     } catch (error) {
       console.error("fetchJobs", error);

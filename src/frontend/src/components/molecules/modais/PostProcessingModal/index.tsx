@@ -27,7 +27,7 @@ export const PostProcessingModal = ({
     try {
       setLoading(true);
       await JobsService.update(id, data);
-      await reload?.();
+      if (reload) await reload();
       closeModal();
     } catch (error) {
       console.error("update Jobs", error);

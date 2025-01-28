@@ -36,7 +36,7 @@ export const CreateBeekeeperModal = ({
     try {
       setLoading(true);
       const res = await BeekeepersService.create(data);
-      await reload?.();
+      if (reload) await reload();
       closeModal();
     } catch (error) {
       console.error("create Jobs", error);
@@ -49,7 +49,7 @@ export const CreateBeekeeperModal = ({
     try {
       setLoading(true);
       await BeekeepersService.update(id, data);
-      await reload?.();
+      if (reload) await reload();
       closeModal();
     } catch (error) {
       console.error("update Jobs", error);
@@ -78,6 +78,7 @@ export const CreateBeekeeperModal = ({
 
   const closeModal = () => {
     form.resetFields();
+    addressForm.resetFields();
     onClose();
   };
 

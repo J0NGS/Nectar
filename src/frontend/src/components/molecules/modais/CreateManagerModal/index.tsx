@@ -35,7 +35,7 @@ export const CreateManagerModal = ({
     try {
       setLoading(true);
       const res = ManagerService.create(formData);
-      await reload?.();
+      if (reload) await reload();
       closeModal();
     } catch (error) {
       console.error("create Jobs", error);
@@ -53,7 +53,7 @@ export const CreateManagerModal = ({
     try {
       setLoading(true);
       await ManagerService.update(id, formData);
-      await reload?.();
+      if (reload) await reload();
       closeModal();
     } catch (error) {
       console.error("update Jobs", error);
