@@ -86,6 +86,7 @@ export const CreateBeekeeperModal = ({
       const formValue = {
         ...initialData.profile,
         birthDate: dayjs(initialData.profile?.birthDate),
+        email: initialData.email,
       };
 
       form.setFieldsValue(formValue);
