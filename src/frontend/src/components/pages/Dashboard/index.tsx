@@ -66,26 +66,27 @@ export const DashboardPage: React.FC = () => {
     setLoading(true);
     try {
       const { data } = await DashboarService.monthlyGraph(date);
-      const startedServices = data.data?.map((item: ItensGraph) => ({
+      const recivedServices = data.data?.map((item: ItensGraph) => ({
         day: dayjs(item.date).format("DD"),
-        value: item.startedServices,
+        value: (item.recivedOfServices ?? 0) / 100,
         date: item.date,
-        type: "Iniciados",
+        type: "Recebido",
       }));
       const wasteOfServices = data.data?.map((item: ItensGraph) => ({
         day: dayjs(item.date).format("DD"),
-        value: item.mediaWasteOfServices,
+        value: (item.wasteOfServices ?? 0) / 100,
         date: item.date,
         type: "Desperdiçado",
       }));
       const revenueOfServices = data.data?.map((item: ItensGraph) => ({
         day: dayjs(item.date).format("DD"),
-        value: item.mediaRevenueOfServices,
+        value: (item.revenueOfServices ?? 0) / 100,
         date: item.date,
         type: "Arrecadado",
       }));
+
       setResourceGraph([
-        ...startedServices,
+        ...recivedServices,
         ...wasteOfServices,
         ...revenueOfServices,
       ]);

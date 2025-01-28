@@ -26,6 +26,7 @@ export interface ItensGraph {
 
   date?: string;
   startedServices?: number;
-  mediaWasteOfServices?: number;
-  mediaRevenueOfServices?: number;
+  wasteOfServices?: number;
+  revenueOfServices?: number;
+  recivedOfServices?: number;
 }
