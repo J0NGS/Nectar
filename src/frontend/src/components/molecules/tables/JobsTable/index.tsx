@@ -80,13 +80,13 @@ export const JobsTable = ({
         dataIndex: "postProcessingRevenue",
         key: "postProcessingRevenue",
         render: (_, { postProcessingRevenue }) =>
-          postProcessingRevenue ? postProcessingRevenue / 100 : 0 + "Kg",
+          (postProcessingRevenue ? postProcessingRevenue / 100 : 0) + "Kg",
       },
       {
         title: "Perdido",
         dataIndex: "waste",
         key: "waste",
-        render: (_, { waste }) => (waste ? waste / 100 : 0 + "Kg"),
+        render: (_, { waste }) => (waste ? waste / 100 : 0) + "Kg",
       },
       {
         title: "Ações",

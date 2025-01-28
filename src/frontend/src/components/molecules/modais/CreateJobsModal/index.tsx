@@ -33,7 +33,7 @@ export const CreateJobsModal = ({
     try {
       setLoading(true);
       const res = JobsService.create(data);
-      await reload?.();
+      if (reload) await reload();
       closeModal();
     } catch (error) {
       console.error("create Jobs", error);
@@ -46,7 +46,7 @@ export const CreateJobsModal = ({
     try {
       setLoading(true);
       await JobsService.update(id, data);
-      await reload?.();
+      if (reload) await reload();
       closeModal();
     } catch (error) {
       console.error("update Jobs", error);
