@@ -1,10 +1,6 @@
 import { BasePagination } from "@/components/atoms/BasePagination";
 import { JobsTable } from "@/components/molecules/tables/JobsTable";
-import {
-  Graph,
-  ItensGraph,
-  MonthlyBoard,
-} from "@/services/dashboarService/dtos";
+import { Graph, ItensGraph, MonthlyBoard } from "@/services/dashboarService/dtos";
 import { DashboarService } from "@/services/dashboarService/service";
 import { Pageable } from "@/types";
 import { Job } from "@/types/entitysType";
@@ -17,19 +13,12 @@ const FlowGraph = React.lazy(() => import("@/components/molecules/FlowGraph"));
 export const DashboardPage: React.FC = () => {
   const [resource, setResource] = useState<Pageable<Job>>();
   const [resourceGraph, setResourceGraph] = useState<ItensGraph[]>([]);
-  const [resourceBoard, setResourceBoard] = useState<MonthlyBoard>();
+  const [resourceBoard, setResourceBoard] = useState<MonthlyBoard | null>(null);
 
   const [page, setPage] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
   const [date, setDate] = useState<Date>(new Date());
   const [jobStatus, setJobStatus] = useState<string>("ALL");
-
-  const [monthlyData, setMonthlyData] = useState({
-    collectedWax: 0,
-    completedJobs: 0,
-    inProcessJobs: 0,
-    registeredProducers: 0,
-  });
 
   const fetchJobs = async () => {
     setLoading(true);
@@ -41,6 +30,18 @@ export const DashboardPage: React.FC = () => {
       setResource(data);
     } catch (error) {
       console.error("fetchJobs [DashboardPage]", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchMonthlyData = async () => {
+    setLoading(true);
+    try {
+      const { data } = await DashboarService.monthlyBoard(date);
+      setResourceBoard(data);
+    } catch (error) {
+      console.error("Erro ao buscar dados mensais [fetchMonthlyData]:", error);
     } finally {
       setLoading(false);
     }
@@ -66,44 +67,11 @@ export const DashboardPage: React.FC = () => {
         day: dayjs(item.date).format("DD"),
         value: item.mediaRevenueOfServices,
         date: item.date,
-        type: "Desperdiçado",
+        type: "Arrecadado",
       }));
-      setResourceGraph([
-        ...startedServices,
-        ...wasteOfServices,
-        ...revenueOfServices,
-      ]);
+      setResourceGraph([...startedServices, ...wasteOfServices, ...revenueOfServices]);
     } catch (error) {
       console.error("fetchGraphData", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchBoardData = async () => {
-    setLoading(true);
-    try {
-      const { data } = await DashboarService.monthlyBoard(date);
-      setResourceBoard(data);
-    } catch (error) {
-      console.error("fetchBoardData", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchMonthlyData = async () => {
-    setLoading(true);
-    try {
-      const data = await DashboarService.getMonthlyData(date); // TO-DO Criar request no back
-      setMonthlyData({
-        collectedWax: data.collectedWax,
-        completedJobs: data.completedJobs,
-        inProcessJobs: data.inProcessJobs,
-        registeredProducers: data.registeredProducers,
-      });
-    } catch (error) {
-      console.error("Erro ao buscar dados mensais", error);
     } finally {
       setLoading(false);
     }
@@ -112,7 +80,6 @@ export const DashboardPage: React.FC = () => {
   useEffect(() => {
     fetchMonthlyData();
     fetchGraphData();
-    fetchBoardData();
   }, [date]);
 
   useEffect(() => {
@@ -126,26 +93,33 @@ export const DashboardPage: React.FC = () => {
         <Col span={24} md={{ span: 6 }}>
           <Card>
             <Statistic
-              title="Cera arrecadada no mês"
-              value={`${monthlyData.collectedWax}Kg`}
+              title="Serviços em processamento"
+              value={resourceBoard?.inProcessingServices || 0}
             />
           </Card>
         </Col>
         <Col span={24} md={{ span: 6 }}>
           <Card>
-            <Statistic title="Concluídos" value={monthlyData.completedJobs} />
-          </Card>
-        </Col>
-        <Col span={24} md={{ span: 6 }}>
-          <Card>
-            <Statistic title="Em processamento" value={monthlyData.inProcessJobs} />
+            <Statistic
+              title="Serviços concluídos"
+              value={resourceBoard?.ConcludeServices || 0}
+            />
           </Card>
         </Col>
         <Col span={24} md={{ span: 6 }}>
           <Card>
             <Statistic
-              title="Produtores cadastrados"
-              value={monthlyData.registeredProducers}
+              title="Novos apicultores cadastrados"
+              value={resourceBoard?.newBeekeepers || 0}
+            />
+          </Card>
+        </Col>
+        <Col span={24} md={{ span: 6 }}>
+          <Card>
+            <Statistic
+              title="Cota de cera"
+              value={resourceBoard?.revenue || 0}
+              suffix="Kg"
             />
           </Card>
         </Col>
@@ -167,7 +141,7 @@ export const DashboardPage: React.FC = () => {
             >
               <Radio.Button value="ALL">Todos</Radio.Button>
               <Radio.Button value="IN_PROGRESS">Em progresso</Radio.Button>
-              <Radio.Button value="CONCLUDED">Concluidos</Radio.Button>
+              <Radio.Button value="CONCLUDED">Concluídos</Radio.Button>
               <Radio.Button value="CANCELED">Cancelados</Radio.Button>
             </Radio.Group>
           </Flex>
