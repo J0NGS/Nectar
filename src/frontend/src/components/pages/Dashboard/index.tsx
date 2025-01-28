@@ -8,7 +8,7 @@ import {
 import { DashboarService } from "@/services/dashboarService/service";
 import { Pageable } from "@/types";
 import { Beekeeper, Job } from "@/types/entitysType";
-import { Card, Col, Flex, Radio, Row, Statistic } from "antd";
+import { Card, Col, Flex, Radio, Row, Statistic, Typography } from "antd";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -151,7 +151,18 @@ export const DashboardPage: React.FC = () => {
       </Card>
 
       {/* Histórico de serviços */}
-      <Card title="Histórico">
+      <Card
+        title={
+          <div className="flex items-center gap-2">
+            <Typography.Title level={5} style={{ margin: 0 }}>
+              Histórico
+            </Typography.Title>
+            <p className="text-xs" style={{ color: "#6b7280" }}>
+              Ultimos 10 serviços cadastrados
+            </p>
+          </div>
+        }
+      >
         <Flex gap={20} vertical>
           <Flex gap={8} justify="end">
             <Radio.Group
