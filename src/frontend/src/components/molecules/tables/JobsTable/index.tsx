@@ -6,6 +6,7 @@ import { ActionsMenu } from "../../ActionsMenu";
 import { productTypeSerialize } from "@/utils/serializers";
 import { JobStatusTag } from "@/components/atoms/JobStatusTag";
 import { useMemo } from "react";
+import { UserStatusTag } from "@/components/atoms/UserStatusTag";
 
 interface Props extends TableProps<Job> {
   onEdit?: (job: Job) => void;
@@ -108,11 +109,12 @@ export const JobsTable = ({
         key: "nome",
         render: (_, { beekeeper }) => (
           <Typography.Link
-            className="w-full truncate"
+            className="w-full truncate flex items-center gap-2"
             onClick={() => beekeeper && onViewBeekeeper?.(beekeeper)}
             title={beekeeper?.profile?.name}
           >
             {beekeeper?.profile?.name}
+            <UserStatusTag status={beekeeper?.status} />
           </Typography.Link>
         ),
       });

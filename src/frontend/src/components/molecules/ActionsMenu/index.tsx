@@ -25,6 +25,7 @@ export const ActionsMenu = ({
   actions,
 }: ActionMenuProps) => {
   const items: MenuProps["items"] = [];
+  
   onView && items.push({ key: "view", onClick: onView, label: "Visualizar" });
   onEdit && items.push({ key: "edit", onClick: onEdit, label: "Editar" });
   onDisable &&

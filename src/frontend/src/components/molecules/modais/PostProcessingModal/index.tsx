@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
-
-import { Form, Modal, Typography } from "antd";
-
+import { useState } from "react";
+import { Form, Modal } from "antd";
 import { LoadingContent } from "@/components/atoms/LoadingContent";
 
 import { Job } from "@/types/entitysType";
@@ -12,7 +10,7 @@ import { PostProcessingForm } from "@/components/organisms/PostProcessingForm";
 export interface Props {
   isOpen: boolean;
   onClose: () => void;
-  initialData: Job;
+  initialData?: Job;
   reload?: () => Promise<void>;
 }
 
@@ -39,19 +37,19 @@ export const PostProcessingModal = ({
   };
 
   const submit = async () => {
-    const postProcessingValue = postProcessingForm.getFieldsValue();
-
-    console.log("postProcessingValue", postProcessingValue);
+    if (!initialData) return;
+    const postProcessingValue = await postProcessingForm.validateFields();
 
     const formValue: CreateJobDTO = {
       ...initialData,
-      beekeeperId: initialData.beekeeper?.id!!,
+      beekeeperId: initialData!!.beekeeper?.id!!,
       startAt: initialData.startAt!!,
       postProcessing: postProcessingValue,
     };
 
-    if (initialData?.id) update(initialData.id, formValue);
+    console.log("formValue", formValue);
 
+    if (initialData?.id) update(initialData.id, formValue);
     closeModal();
   };
 
@@ -70,8 +68,10 @@ export const PostProcessingModal = ({
       okText="Salvar"
       width={1000}
     >
-      <LoadingContent isLoading={loading} />\
-      <PostProcessingForm form={postProcessingForm} isRequired />
+      <div className="mt-6">
+        <LoadingContent isLoading={loading} />
+        <PostProcessingForm form={postProcessingForm} isRequired />
+      </div>
     </Modal>
   );
 };

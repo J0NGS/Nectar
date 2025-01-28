@@ -8,6 +8,7 @@ import { BasePagination } from "@/components/atoms/BasePagination";
 import { JobsService } from "@/services/JobsService/service";
 import { CreateJobsModal } from "@/components/molecules/modais/CreateJobsModal";
 import { useNavigate } from "react-router-dom";
+import { PostProcessingModal } from "@/components/molecules/modais/PostProcessingModal";
 
 export const ServicosPage: React.FC = () => {
   const [resource, setResource] = useState<Pageable<Job>>();
@@ -17,6 +18,7 @@ export const ServicosPage: React.FC = () => {
 
   const [createJobModal, setCreateJobModal] = useState<boolean>(false);
   const [selectedEditJob, setSelectedEditJob] = useState<Job>();
+  const [selectedProcess, setSelectedProcess] = useState<Job>();
 
   const navigate = useNavigate();
 
@@ -83,6 +85,7 @@ export const ServicosPage: React.FC = () => {
             onView={handleView}
             onViewBeekeeper={handleBeekeeperView}
             onEdit={(manager) => setSelectedEditJob(manager)}
+            onProcess={(job) => setSelectedProcess(job)}
           />
           <BasePagination page={page} setPage={setPage} pageable={resource} />
         </Flex>
@@ -96,6 +99,15 @@ export const ServicosPage: React.FC = () => {
         }}
         initialData={selectedEditJob}
         reload={fetchJobs}
+      />
+
+      <PostProcessingModal
+        isOpen={!!selectedProcess}
+        initialData={selectedProcess}
+        reload={fetchJobs}
+        onClose={() => {
+          setSelectedProcess(undefined);
+        }}
       />
     </>
   );
