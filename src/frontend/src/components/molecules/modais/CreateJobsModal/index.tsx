@@ -83,6 +83,7 @@ export const CreateJobsModal = ({
 
   const closeModal = () => {
     form.resetFields();
+    postProcessingForm.resetFields();
     onClose();
   };
 
@@ -90,10 +91,19 @@ export const CreateJobsModal = ({
     if (initialData) {
       const formValue: CreateJobDTO = {
         ...initialData,
+        weight: initialData.weight!! / 100,
         beekeeperId: initialData.beekeeper?.id!!,
         startAt: dayjs(initialData.startAt!!),
       };
 
+      const postProcessingValue: PostProcessingDTO = {
+        postProcessingBales: initialData?.postProcessingBales!!,
+        postProcessingWeight: initialData?.postProcessingWeight!! / 100,
+        postProcessingRevenue: initialData?.postProcessingRevenue!! / 100,
+        waste: initialData?.waste!! / 100,
+      };
+
+      postProcessingForm.setFieldsValue(postProcessingValue);
       form.setFieldsValue(formValue);
     }
   }, [initialData]);

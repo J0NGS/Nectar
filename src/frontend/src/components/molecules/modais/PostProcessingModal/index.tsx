@@ -40,14 +40,19 @@ export const PostProcessingModal = ({
     if (!initialData) return;
     const postProcessingValue = await postProcessingForm.validateFields();
 
+    const postProcessing: PostProcessingDTO = {
+      postProcessingBales: postProcessingValue?.postProcessingBales!!,
+      postProcessingWeight: postProcessingValue?.postProcessingWeight!! * 100,
+      postProcessingRevenue: postProcessingValue?.postProcessingRevenue!! * 100,
+      waste: postProcessingValue?.waste!! * 100,
+    };
+
     const formValue: CreateJobDTO = {
       ...initialData,
       beekeeperId: initialData!!.beekeeper?.id!!,
       startAt: initialData.startAt!!,
-      postProcessing: postProcessingValue,
+      postProcessing,
     };
-
-    console.log("formValue", formValue);
 
     if (initialData?.id) update(initialData.id, formValue);
     closeModal();
