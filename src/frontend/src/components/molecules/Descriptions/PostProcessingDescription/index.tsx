@@ -9,26 +9,36 @@ interface PostProcessingDescriptionProps {
 export const PostProcessingDescription: React.FC<
   PostProcessingDescriptionProps
 > = ({ postProcessing }) => {
-  
   const items: DescriptionsProps["items"] = [
-    { 
-      label: "Fardos Pós-Processamento", 
-      children: `${postProcessing.postProcessingBales !== undefined && (postProcessing.postProcessingBales)}`
+    {
+      label: "Fardos Pós-Processamento",
+      children: `${
+        postProcessing.postProcessingBales !== undefined &&
+        postProcessing.postProcessingBales
+      }`,
     },
-    { 
-      label: "Peso Pós-Processamento", 
-      children: `${postProcessing.postProcessingWeight !== undefined &&(postProcessing.postProcessingWeight / 100).toFixed(2)} kg` 
+    {
+      label: "Peso Pós-Processamento",
+      children: `${
+        postProcessing.postProcessingWeight !== undefined &&
+        (postProcessing.postProcessingWeight / 100).toFixed(2)
+      } kg`,
     },
-    { 
-      label: "Arrecadado", 
-      children: `${postProcessing.postProcessingRevenue !== undefined && ( postProcessing.postProcessingRevenue / 100).toFixed(2)} kg` 
+    {
+      label: "Arrecadado",
+      children: `${
+        postProcessing.postProcessingRevenue !== undefined &&
+        (postProcessing.postProcessingRevenue / 100).toFixed(2)
+      } kg`,
     },
-    { 
-      label: "Peso Desperdiçado", 
-      children: `${postProcessing.waste !== undefined && (postProcessing.waste / 100).toFixed(2)} kg`
+    {
+      label: "Peso Desperdiçado",
+      children: `${
+        postProcessing.waste !== undefined &&
+        (postProcessing.waste / 100).toFixed(2)
+      } kg`,
     },
-  ]
-
+  ];
 
   return (
     <Descriptions

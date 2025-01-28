@@ -21,7 +21,10 @@ export const JobDescription: React.FC<JobDescriptionProps> = ({ job }) => {
     { label: "Pesticidas", children: job?.pesticides ? "Sim" : "Não" },
     { label: "Perda de Enxame", children: job?.hiveLoss ? "Sim" : "Não" },
     { label: "Quantidade de Fardos", children: job?.quantityOfBales },
-    { label: "Peso Total", children: `${job?.weight ?? 0 / 100} kg` },
+    {
+      label: "Peso Total",
+      children: `${(job?.weight ? job.weight / 100 : 0).toFixed(2)} kg`,
+    },
     { label: "Data de Início", children: formatDate(job?.startAt) },
     ...(job?.observation
       ? [{ label: "Observações", children: job?.observation }]
