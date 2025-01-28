@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { toast } from "react-toastify";
 
 import { Address } from "@/types/authTypes";
+import { Map } from "@/types";
 
 export async function copyText(link?: string) {
   if (!link) return;
@@ -155,3 +156,14 @@ export const stateOptions = [
   { value: "SE", label: "Sergipe" },
   { value: "TO", label: "Tocantins" },
 ];
+
+export const waxColorSchema: Map = {
+  A: "#FFDD8F", // Mel Extra Claro
+  B: "#FFC65A", // Mel Claro
+  C: "#FFB347", // Mel Âmbar Claro
+  D: "#E69B40", // Mel Âmbar
+  E: "#C47E3F", // Mel Âmbar Escuro
+  F: "#A45B2A", // Mel Âmbar Avermelhado
+  G: "#814D1B", // Mel Escuro
+  H: "#5A3214", // Mel Muito Escuro
+};

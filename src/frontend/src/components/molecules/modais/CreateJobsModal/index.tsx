@@ -56,8 +56,8 @@ export const CreateJobsModal = ({
   };
 
   const submit = async () => {
-    const data = form.getFieldsValue();
-    const postProcessingValue = postProcessingForm.getFieldsValue();
+    const data = await form.validateFields();
+    const postProcessingValue = await postProcessingForm.validateFields();
 
     const formValue = {
       ...data,

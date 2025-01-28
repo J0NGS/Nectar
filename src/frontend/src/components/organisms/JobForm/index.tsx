@@ -1,7 +1,6 @@
 import { CreateJobDTO } from "@/services/JobsService/dtos";
-import { FormProps } from "antd";
+import { FormProps, Radio } from "antd";
 import { SelectSearchInput } from "@/components/atoms/Inputs/SelectSearchInput";
-import { WaxColorSchema } from "@/components/atoms/WaxColorSchema";
 import { booleanSelectOptions, produtcTypeOptions } from "@/utils/utils";
 import { Col, DatePicker, Form, Input, InputNumber, Row, Select } from "antd";
 import { useEffect, useState } from "react";
@@ -197,23 +196,114 @@ export const JobForm = ({ ...rest }: JobFormProps) => {
             <InputMoney placeholder="Peso total recebido" unit="Kg" />
           </Form.Item>
         </Col>
-        <Col span={24} md={{ span: 6 }}>
-          <Form.Item
-            label="Cor"
-            name={"color"}
-            key={"color"}
-            id="color"
-            rules={[
-              {
-                required: true,
-                message: "Campo obrigatório!",
-              },
-            ]}
-          >
-            <WaxColorSchema />
-          </Form.Item>
-        </Col>
       </Row>
+      <Form.Item
+        label="Cor"
+        name={"color"}
+        key={"color"}
+        id="color"
+        rules={[
+          {
+            required: true,
+            message: "Campo obrigatório!",
+          },
+        ]}
+      >
+        <Radio.Group
+          className="flex space-x-1"
+          buttonStyle="solid"
+          id="waxColorSchema"
+        >
+          <Radio.Button
+            value="A"
+            style={{
+              width: "2rem",
+              height: "2rem",
+              backgroundColor: "#FFDD8F", // Amarelo-500
+              border: "2px solid transparent",
+              borderRadius: "0.375rem", // rounded-md
+            }}
+            className="focus:outline-none"
+          />
+          <Radio.Button
+            value="B"
+            style={{
+              width: "2rem",
+              height: "2rem",
+              backgroundColor: "#FFC65A", // Amarelo-500
+              border: "2px solid transparent",
+              borderRadius: "0.375rem", // rounded-md
+            }}
+            className="focus:outline-none"
+          />
+          <Radio.Button
+            value="C"
+            style={{
+              width: "2rem",
+              height: "2rem",
+              backgroundColor: "#FFB347", // Amarelo-500
+              border: "2px solid transparent",
+              borderRadius: "0.375rem", // rounded-md
+            }}
+            className="focus:outline-none"
+          />
+          <Radio.Button
+            value="D"
+            style={{
+              width: "2rem",
+              height: "2rem",
+              backgroundColor: "#E69B40", // Amarelo-500
+              border: "2px solid transparent",
+              borderRadius: "0.375rem", // rounded-md
+            }}
+            className="focus:outline-none"
+          />
+          <Radio.Button
+            value="E"
+            style={{
+              width: "2rem",
+              height: "2rem",
+              backgroundColor: "#C47E3F", // Amarelo-500
+              border: "2px solid transparent",
+              borderRadius: "0.375rem", // rounded-md
+            }}
+            className="focus:outline-none"
+          />
+          <Radio.Button
+            value="F"
+            style={{
+              width: "2rem",
+              height: "2rem",
+              backgroundColor: "#A45B2A", // Amarelo-500
+              border: "2px solid transparent",
+              borderRadius: "0.375rem", // rounded-md
+            }}
+            className="focus:outline-none"
+          />
+          <Radio.Button
+            value="G"
+            style={{
+              width: "2rem",
+              height: "2rem",
+              backgroundColor: "#814D1B", // Amarelo-500
+              border: "2px solid transparent",
+              borderRadius: "0.375rem", // rounded-md
+            }}
+            className="focus:outline-none"
+          />
+          <Radio.Button
+            value="H"
+            style={{
+              width: "2rem",
+              height: "2rem",
+              backgroundColor: "#5A3214", // Amarelo-500
+              border: "2px solid transparent",
+              borderRadius: "0.375rem", // rounded-md
+            }}
+            className="focus:outline-none"
+          />
+        </Radio.Group>
+      </Form.Item>
 
       <Form.Item
         label="Observação"
@@ -221,7 +311,7 @@ export const JobForm = ({ ...rest }: JobFormProps) => {
         key={"observation"}
         id="observation"
       >
-        <TextArea rows={1} />
+        <TextArea rows={3} />
       </Form.Item>
     </Form>
   );
