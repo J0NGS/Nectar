@@ -1,12 +1,17 @@
 import { BasePagination } from "@/components/atoms/BasePagination";
 import { JobsTable } from "@/components/molecules/tables/JobsTable";
-import { Graph, ItensGraph, MonthlyBoard } from "@/services/dashboarService/dtos";
+import {
+  Graph,
+  ItensGraph,
+  MonthlyBoard,
+} from "@/services/dashboarService/dtos";
 import { DashboarService } from "@/services/dashboarService/service";
 import { Pageable } from "@/types";
-import { Job } from "@/types/entitysType";
+import { Beekeeper, Job } from "@/types/entitysType";
 import { Card, Col, Flex, Radio, Row, Statistic } from "antd";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const FlowGraph = React.lazy(() => import("@/components/molecules/FlowGraph"));
 
@@ -19,6 +24,16 @@ export const DashboardPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [date, setDate] = useState<Date>(new Date());
   const [jobStatus, setJobStatus] = useState<string>("ALL");
+
+  const navigate = useNavigate();
+
+  const handleView = (job: Job) => {
+    navigate(`/servico/${job.id}`);
+  };
+
+  const handleBeekeeperView = (beekeeper: Beekeeper) => {
+    navigate(`/apicultor/${beekeeper.id}`);
+  };
 
   const fetchJobs = async () => {
     setLoading(true);
@@ -69,7 +84,11 @@ export const DashboardPage: React.FC = () => {
         date: item.date,
         type: "Arrecadado",
       }));
-      setResourceGraph([...startedServices, ...wasteOfServices, ...revenueOfServices]);
+      setResourceGraph([
+        ...startedServices,
+        ...wasteOfServices,
+        ...revenueOfServices,
+      ]);
     } catch (error) {
       console.error("fetchGraphData", error);
     } finally {
@@ -147,6 +166,8 @@ export const DashboardPage: React.FC = () => {
           </Flex>
 
           <JobsTable
+            onView={handleView}
+            onViewBeekeeper={handleBeekeeperView}
             dataSource={resource?.content ?? []}
             pagination={false}
             loading={loading}
