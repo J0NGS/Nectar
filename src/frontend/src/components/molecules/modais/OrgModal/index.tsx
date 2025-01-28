@@ -18,7 +18,7 @@ export const OrgModal = ({ isOpen,onClose,initialData,reload }: Props) => {
     const [editMode, setEditMode] = useState<boolean>(false);
     const [form] = Form.useForm<UserType>();
     const { user } = useContext(AuthContext);
-
+    console.log(user?.role)
     const initialValues = {
         name: initialData?.profile?.name,
         email: initialData?.auth?.username,
@@ -83,7 +83,8 @@ export const OrgModal = ({ isOpen,onClose,initialData,reload }: Props) => {
                 <OrgDescription data={initialValues}
                 />
                 <Flex align="center" gap={10} className="w-full justify-end mt-3">
-                    <Button type="primary" onClick={() => setEditMode(true)}>Editar</Button>
+                    {user?.role === "ROLE_ORG" && 
+                    <Button type="primary" onClick={() => setEditMode(true)}>Editar</Button>}
                     <Button onClick={closeModal}>Cancelar</Button>
                 </Flex>
             </>
