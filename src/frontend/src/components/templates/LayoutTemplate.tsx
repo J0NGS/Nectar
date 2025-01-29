@@ -1,7 +1,6 @@
-import { Layout, theme } from "antd";
+import { Button, Layout, theme } from "antd";
 import Sider from "antd/es/layout/Sider";
-import { Content } from "antd/es/layout/layout";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { HeaderLayout } from "../molecules/HeaderLayout";
 import { MenuNavigate } from "../molecules/MenuNavigate";
@@ -9,6 +8,7 @@ import { OrgModal } from "../molecules/modais/OrgModal";
 import { AuthContext } from "@/contexts/AuthContext";
 import { UserService } from "@/services/userService/service";
 import { User } from "@/types/authTypes";
+import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 
 export const LayoutTemplate: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
@@ -16,7 +16,7 @@ export const LayoutTemplate: React.FC = () => {
   const [initialData, setInitialData] = useState<User>();
   const { user } = useContext(AuthContext);
   const {
-    token: { colorBgContainer },
+    token: { colorBgContainer, colorPrimary },
   } = theme.useToken();
 
   const onOpenOrg = async () => {
@@ -27,43 +27,39 @@ export const LayoutTemplate: React.FC = () => {
     }
   }
   return (
-    <Layout hasSider className="h-screen">
+    <Layout hasSider style={{height:"100vh"}}>
       <Sider
-        style={{ position: "fixed", zIndex: 1, height: "100vh" }}
+        trigger={null}
+        collapsible
         collapsed={collapsed}
-        onCollapse={setCollapsed}
-        className="bg-primary"
+        style={{ background: colorPrimary}}
       >
-        <div className="flex items-center w-full justify-center p-4">
-         <span className="font-extrabold text-xl text-[#FFF]">NECTAR</span>
+        <div className="flex items-center truncate justify-center p-4 mb-3">
+          <span className="font-extrabold text-xl text-[#FFF]">
+            {!collapsed ? "NECTAR" : "NCTR"}
+          </span>
         </div>
         <MenuNavigate />
       </Sider>
-      <Layout style={{ marginInlineStart: 200, height: 'calc(100% - 24px)'}}>
-        <HeaderLayout
-          style={{
-            position: "fixed",
-            width: "calc(100% - 200px)",
-            zIndex: 1,
-            top: 0,
-          }}
-          onClick={onOpenOrg}
-        />
-        <Content
-          className="p-6 rounded-md"
-          style={{
-            background: colorBgContainer,
-            margin: "85px 16px 0 16px",
-            overflow: "scroll",
-            overflowX: "hidden",
-            overflowY: "visible",
-            scrollbarWidth: "none",
-          }}
-        >
+      <Layout style={{height:"100vh"}}>
+        <HeaderLayout style={{ padding: 0, background: colorBgContainer, zIndex:1 }}>
+          <Button
+            type="text"
+            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            onClick={() => setCollapsed(!collapsed)}
+            style={{
+              fontSize: "16px",
+              width: 64,
+              height: 64,
+            }}
+          />
+        </HeaderLayout>
+        <section className="flex-1 p-4 bg-white overflow-y-auto" style={{height:"100vh", marginTop:"-60px", paddingTop:"80px"}}>
           <Outlet />
-        </Content>
+        </section>
       </Layout>
-      <OrgModal isOpen={editOrgModal} onClose={()=>setEditOrgModal(!editOrgModal)} initialData={initialData}/>
+      <OrgModal isOpen={editOrgModal} onClose={() => setEditOrgModal(!editOrgModal)} initialData={initialData} />
     </Layout>
+
   );
 };
