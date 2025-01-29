@@ -5,6 +5,7 @@ import { formatDate } from "@/utils/formaters/formatDate";
 import { formatDateAndTime } from "@/utils/formaters/formatTime";
 import { Descriptions } from "antd";
 import type { DescriptionsProps } from 'antd';
+import React from "react";
 
 interface UserDetail extends Profile {
   email?: string;
@@ -14,7 +15,7 @@ interface UserDetail extends Profile {
 
 interface Props {
   data: UserDetail;
-  tittle?: string;
+  tittle?: string | React.ReactNode;
 }
 
 export const ProfileWitchEmailDescription: React.FC<Props> = ({ data, tittle }) => {

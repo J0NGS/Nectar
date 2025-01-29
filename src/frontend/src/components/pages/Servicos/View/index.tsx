@@ -3,7 +3,7 @@ import { JobDescription } from "@/components/molecules/Descriptions/JobDescripti
 import { PostProcessingDescription } from "@/components/molecules/Descriptions/PostProcessingDescription";
 import { JobsService } from "@/services/JobsService/service";
 import { Job } from "@/types/entitysType";
-import { Card } from "antd";
+import { Card, Flex } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -30,22 +30,27 @@ export const ViewJobPage: React.FC = () => {
   }, [id]);
 
   return (
-    <Card className="flex flex-col gap-4">
+    <>
       <LoadingContent isLoading={resourceLoading} />
-      <JobDescription job={resource} />
 
-      {resource?.postProcessingBales && (
-        <div className="mt-4">
-          <PostProcessingDescription
-            postProcessing={{
-              postProcessingBales: resource?.postProcessingBales,
-              postProcessingRevenue: resource?.postProcessingRevenue,
-              postProcessingWeight: resource?.postProcessingWeight,
-              waste: resource?.waste,
-            }}
-          />
-        </div>
-      )}
-    </Card>
+      <Flex gap={20} vertical>
+        <Card>
+          <JobDescription job={resource} />
+        </Card>
+
+        {resource?.postProcessingBales && (
+          <Card>
+            <PostProcessingDescription
+              postProcessing={{
+                postProcessingBales: resource?.postProcessingBales,
+                postProcessingRevenue: resource?.postProcessingRevenue,
+                postProcessingWeight: resource?.postProcessingWeight,
+                waste: resource?.waste,
+              }}
+            />
+          </Card>
+        )}
+      </Flex>
+    </>
   );
 };

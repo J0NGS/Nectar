@@ -14,12 +14,12 @@ export const LayoutTemplate: React.FC = () => {
   } = theme.useToken();
 
   return (
-    <Layout hasSider style={{height:"100vh"}}>
+    <Layout hasSider style={{ height: "100vh" }}>
       <Sider
         trigger={null}
         collapsible
         collapsed={collapsed}
-        style={{ background: colorPrimary}}
+        style={{ background: colorPrimary }}
       >
         <div className="flex items-center truncate justify-center p-4 mb-3">
           <span className="font-extrabold text-xl text-[#FFF]">
@@ -28,8 +28,10 @@ export const LayoutTemplate: React.FC = () => {
         </div>
         <MenuNavigate />
       </Sider>
-      <Layout style={{height:"100vh"}}>
-        <HeaderLayout style={{ padding: 0, background: colorBgContainer, zIndex:1 }}>
+      <Layout style={{ height: "100vh" }}>
+        <HeaderLayout
+          style={{ padding: 0, background: colorBgContainer, zIndex: 20 }}
+        >
           <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -41,11 +43,13 @@ export const LayoutTemplate: React.FC = () => {
             }}
           />
         </HeaderLayout>
-        <section className="flex-1 p-4 overflow-y-auto" style={{height:"100vh", marginTop:"-60px", paddingTop:"80px"}}>
+        <section
+          className="flex-1 p-4 overflow-y-auto"
+          style={{ height: "100vh", marginTop: "-60px", paddingTop: "80px" }}
+        >
           <Outlet />
         </section>
       </Layout>
     </Layout>
-
   );
 };

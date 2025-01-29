@@ -9,6 +9,14 @@ export type Map = {
     | undefined;
 };
 
+export type PickerMode =
+  | "time"
+  | "date"
+  | "week"
+  | "month"
+  | "quarter"
+  | "year";
+
 export interface ReloadRef {
   reload: () => void;
 }

@@ -1,10 +1,7 @@
 import { BasePagination } from "@/components/atoms/BasePagination";
+import { InputSelectDate } from "@/components/atoms/Inputs/inputSelectDate";
 import { JobsTable } from "@/components/molecules/tables/JobsTable";
-import {
-  Graph,
-  ItensGraph,
-  MonthlyBoard,
-} from "@/services/dashboarService/dtos";
+import { ItensGraph, MonthlyBoard } from "@/services/dashboarService/dtos";
 import { DashboarService } from "@/services/dashboarService/service";
 import { Pageable } from "@/types";
 import { Beekeeper, Job } from "@/types/entitysType";
@@ -108,6 +105,8 @@ export const DashboardPage: React.FC = () => {
 
   return (
     <Flex gap={20} vertical>
+      <InputSelectDate date={date} setDate={setDate} />
+
       {/* Painel de estatísticas mensais */}
       <Row gutter={[16, 16]}>
         <Col span={24} md={{ span: 6 }}>
