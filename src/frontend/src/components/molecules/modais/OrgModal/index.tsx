@@ -18,15 +18,13 @@ export const OrgModal = ({ isOpen, onClose, initialData, reload }: Props) => {
   const [editMode, setEditMode] = useState<boolean>(false);
   const [form] = Form.useForm<UserType>();
   const { user } = useContext(AuthContext);
-  console.log(user?.role);
+
   const initialValues = {
     name: initialData?.profile?.name,
     email: initialData?.auth?.username,
     phone: initialData?.profile?.phone,
     document: initialData?.profile?.document,
   };
-
-  console.log("initialValues", initialData);
 
   const update = async (data: UserType) => {
     const updateUser: UserEdit = {
@@ -41,7 +39,8 @@ export const OrgModal = ({ isOpen, onClose, initialData, reload }: Props) => {
       setLoading(true);
       await UserService.updateUser(user?.id as string, updateUser);
       if (reload) await reload();
-      closeModal();
+      onClose();
+      
     } catch (error) {
       console.error("update Jobs", error);
     } finally {
@@ -51,22 +50,28 @@ export const OrgModal = ({ isOpen, onClose, initialData, reload }: Props) => {
 
   const submit = async () => {
     const formValue = form.getFieldsValue();
-    console.log("formValue", formValue);
-    if (initialData?.id) update(formValue);
-    closeModal();
+    if (initialData?.id) await update(formValue);
+    form.resetFields(
+      ["name", "email", "phone", "document", "password"],
+    );
+    setEditMode(false);
   };
 
-  const closeModal = () => {
+  const refreshModal = () => {
+    setEditMode(false);
+    console.log("AAAA", form.getFieldsValue())
     form.resetFields();
     onClose();
-  };
+  }
 
+ 
   return (
     <Modal
       title={editMode ? "Editar Organização" : "Organização"}
       open={isOpen}
       confirmLoading={loading}
-      onCancel={closeModal}
+      onCancel={refreshModal}
+      onClose={refreshModal}
       onOk={submit}
       footer={null}
     >
@@ -94,7 +99,7 @@ export const OrgModal = ({ isOpen, onClose, initialData, reload }: Props) => {
                 Editar
               </Button>
             )}
-            <Button onClick={closeModal}>Cancelar</Button>
+            <Button onClick={onClose}>Cancelar</Button>
           </Flex>
         </>
       )}

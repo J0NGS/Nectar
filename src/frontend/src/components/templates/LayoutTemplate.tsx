@@ -1,31 +1,18 @@
 import { Button, Layout, theme } from "antd";
 import Sider from "antd/es/layout/Sider";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import { HeaderLayout } from "../molecules/HeaderLayout";
 import { MenuNavigate } from "../molecules/MenuNavigate";
-import { OrgModal } from "../molecules/modais/OrgModal";
-import { AuthContext } from "@/contexts/AuthContext";
-import { UserService } from "@/services/userService/service";
-import { User } from "@/types/authTypes";
+
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 
 export const LayoutTemplate: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [editOrgModal, setEditOrgModal] = useState(false);
-  const [initialData, setInitialData] = useState<User>();
-  const { user } = useContext(AuthContext);
   const {
     token: { colorBgContainer, colorPrimary },
   } = theme.useToken();
 
-  const onOpenOrg = async () => {
-    if(user?.id) {
-      const res = await UserService.getById(user.id);
-      setInitialData(res.data);
-      setEditOrgModal(!editOrgModal)
-    }
-  }
   return (
     <Layout hasSider style={{height:"100vh"}}>
       <Sider
@@ -54,11 +41,10 @@ export const LayoutTemplate: React.FC = () => {
             }}
           />
         </HeaderLayout>
-        <section className="flex-1 p-4 bg-white overflow-y-auto" style={{height:"100vh", marginTop:"-60px", paddingTop:"80px"}}>
+        <section className="flex-1 p-4 overflow-y-auto" style={{height:"100vh", marginTop:"-60px", paddingTop:"80px"}}>
           <Outlet />
         </section>
       </Layout>
-      <OrgModal isOpen={editOrgModal} onClose={() => setEditOrgModal(!editOrgModal)} initialData={initialData} />
     </Layout>
 
   );
