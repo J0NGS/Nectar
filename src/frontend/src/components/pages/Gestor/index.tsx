@@ -1,4 +1,4 @@
-import { Button, Flex, Radio, Typography } from "antd";
+import { Button, Card, Flex, Radio, Typography } from "antd";
 import Search from "antd/es/input/Search";
 import { PlusOutlined } from "@ant-design/icons";
 import { Manager } from "@/types/entitysType";
@@ -58,7 +58,7 @@ export const GestorPage: React.FC = () => {
   }, [page, status]);
 
   return (
-    <>
+    <Card>
       <Flex gap={20} vertical className="overflow-hidden">
         <Flex justify="space-between">
           <Typography.Title level={4}>Gestores</Typography.Title>
@@ -110,6 +110,6 @@ export const GestorPage: React.FC = () => {
         initialData={selectedEditManager}
         reload={fetchPage}
       />
-    </>
+    </Card>
   );
 };

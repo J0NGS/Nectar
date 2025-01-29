@@ -65,7 +65,7 @@ export const ViewBeekeeperPage: React.FC = () => {
   }, [id]);
 
   return (
-    <div className=" flex flex-col gap-4">
+    <Card className=" flex flex-col gap-4">
       <LoadingContent isLoading={resourceLoading} />
 
       <div className="mb-6">
@@ -103,6 +103,6 @@ export const ViewBeekeeperPage: React.FC = () => {
         />
         <BasePagination page={page} setPage={setPage} pageable={jobsResource} />
       </Flex>
-    </div>
+    </Card>
   );
 };

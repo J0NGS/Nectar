@@ -1,4 +1,4 @@
-import { Button, Flex, Radio, Typography } from "antd";
+import { Button, Card, Flex, Radio, Typography } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { JobsTable } from "@/components/molecules/tables/JobsTable";
 import { Pageable } from "@/types";
@@ -50,7 +50,7 @@ export const ServicosPage: React.FC = () => {
   }, [page, jobStatus]);
 
   return (
-    <>
+    <Card>
       <Flex gap={20} vertical className="overflow-hidden relative">
         <Flex justify="space-between">
           <Typography.Title level={4}>Serviços</Typography.Title>
@@ -107,6 +107,6 @@ export const ServicosPage: React.FC = () => {
           setSelectedProcess(undefined);
         }}
       />
-    </>
+    </Card>
   );
 };

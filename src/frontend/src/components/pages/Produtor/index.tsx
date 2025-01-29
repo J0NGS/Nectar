@@ -1,4 +1,4 @@
-import { Button, Flex, Radio, Typography } from "antd";
+import { Button, Card, Flex, Radio, Typography } from "antd";
 import Search from "antd/es/input/Search";
 import { PlusOutlined } from "@ant-design/icons";
 import { ProdutorTable } from "../../molecules/tables/ProdutorTable";
@@ -67,7 +67,7 @@ export const ProdutorPage: React.FC = () => {
   }, [page, status]);
 
   return (
-    <>
+    <Card>
       <Flex gap={20} vertical className="overflow-hidden">
         <Flex justify="space-between">
           <Typography.Title level={4}>Apicultores</Typography.Title>
@@ -121,6 +121,6 @@ export const ProdutorPage: React.FC = () => {
         initialData={selectedEditBeekeeper}
         reload={fetchPage}
       />
-    </>
+    </Card>
   );
 };

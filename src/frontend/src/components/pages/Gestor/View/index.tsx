@@ -2,6 +2,7 @@ import { LoadingContent } from "@/components/atoms/LoadingContent";
 import { ProfileWitchEmailDescription } from "@/components/molecules/Descriptions/ProfileWitchEmailDescription";
 import { ManagerService } from "@/services/managerService/service";
 import { Manager } from "@/types/entitysType";
+import { Card } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -28,7 +29,7 @@ export const ViewManagerPage: React.FC = () => {
   }, [id]);
 
   return (
-    <div>
+    <Card>
       <LoadingContent isLoading={resourceLoading} />
       <ProfileWitchEmailDescription
         tittle="Gestor"
@@ -39,6 +40,6 @@ export const ViewManagerPage: React.FC = () => {
           status: resource?.user?.status,
         }}
       />
-    </div>
+    </Card>
   );
 };

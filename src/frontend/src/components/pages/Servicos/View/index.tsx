@@ -3,6 +3,7 @@ import { JobDescription } from "@/components/molecules/Descriptions/JobDescripti
 import { PostProcessingDescription } from "@/components/molecules/Descriptions/PostProcessingDescription";
 import { JobsService } from "@/services/JobsService/service";
 import { Job } from "@/types/entitysType";
+import { Card } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -29,7 +30,7 @@ export const ViewJobPage: React.FC = () => {
   }, [id]);
 
   return (
-    <div className="flex flex-col gap-4">
+    <Card className="flex flex-col gap-4">
       <LoadingContent isLoading={resourceLoading} />
       <JobDescription job={resource} />
 
@@ -45,6 +46,6 @@ export const ViewJobPage: React.FC = () => {
           />
         </div>
       )}
-    </div>
+    </Card>
   );
 };
