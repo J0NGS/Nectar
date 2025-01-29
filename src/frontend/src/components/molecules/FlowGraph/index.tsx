@@ -14,7 +14,7 @@ export default function FlowGraph({ data }: Props) {
     xField: "day",
     yField: "value",
     colorField: "type",
-    scale: { color: { range: ["#d9d9d9", "#3C8117", "#CC1248"] } },
+    scale: { color: { range: ["#ffb300", "#3C8117", "#CC1248"] } },
     axis: {
       y: {
         labelFormatter: (v: any) => formatCurrency(Number(v),"kg"),

@@ -8,7 +8,7 @@ import {
 import { DashboarService } from "@/services/dashboarService/service";
 import { Pageable } from "@/types";
 import { Beekeeper, Job } from "@/types/entitysType";
-import { Card, Col, Flex, Radio, Row, Statistic } from "antd";
+import { Card, Col, Flex, Radio, Row, Statistic, Typography } from "antd";
 import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -66,28 +66,29 @@ export const DashboardPage: React.FC = () => {
     setLoading(true);
     try {
       const { data } = await DashboarService.monthlyGraph(date);
-      const startedServices = data.data?.map((item: ItensGraph) => ({
+      const recivedServices = data.data?.map((item: ItensGraph) => ({
         day: dayjs(item.date).format("DD"),
-        value: item.startedServices,
+        value: (item.recivedOfServices ?? 0) / 100,
         date: item.date,
-        type: "Iniciados",
+        type: "Recebido",
       }));
       const wasteOfServices = data.data?.map((item: ItensGraph) => ({
         day: dayjs(item.date).format("DD"),
-        value: item.mediaWasteOfServices,
+        value: (item.wasteOfServices ?? 0) / 100,
         date: item.date,
         type: "Desperdiçado",
       }));
       const revenueOfServices = data.data?.map((item: ItensGraph) => ({
         day: dayjs(item.date).format("DD"),
-        value: item.mediaRevenueOfServices,
+        value: (item.revenueOfServices ?? 0) / 100,
         date: item.date,
         type: "Arrecadado",
       }));
+
       setResourceGraph([
-        ...startedServices,
-        ...wasteOfServices,
+        ...recivedServices,
         ...revenueOfServices,
+        ...wasteOfServices,
       ]);
     } catch (error) {
       console.error("fetchGraphData", error);
@@ -150,7 +151,18 @@ export const DashboardPage: React.FC = () => {
       </Card>
 
       {/* Histórico de serviços */}
-      <Card title="Histórico">
+      <Card
+        title={
+          <div className="flex items-center gap-2">
+            <Typography.Title level={5} style={{ margin: 0 }}>
+              Histórico
+            </Typography.Title>
+            <p className="text-xs" style={{ color: "#6b7280" }}>
+              Ultimos 10 serviços cadastrados
+            </p>
+          </div>
+        }
+      >
         <Flex gap={20} vertical>
           <Flex gap={8} justify="end">
             <Radio.Group

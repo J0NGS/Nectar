@@ -33,7 +33,7 @@ export const CreateJobsModal = ({
     try {
       setLoading(true);
       const res = JobsService.create(data);
-      await reload?.();
+      if (reload) await reload();
       closeModal();
     } catch (error) {
       console.error("create Jobs", error);
@@ -46,7 +46,7 @@ export const CreateJobsModal = ({
     try {
       setLoading(true);
       await JobsService.update(id, data);
-      await reload?.();
+      if (reload) await reload();
       closeModal();
     } catch (error) {
       console.error("update Jobs", error);
@@ -83,6 +83,7 @@ export const CreateJobsModal = ({
 
   const closeModal = () => {
     form.resetFields();
+    postProcessingForm.resetFields();
     onClose();
   };
 
@@ -90,10 +91,19 @@ export const CreateJobsModal = ({
     if (initialData) {
       const formValue: CreateJobDTO = {
         ...initialData,
+        weight: initialData.weight!! / 100,
         beekeeperId: initialData.beekeeper?.id!!,
         startAt: dayjs(initialData.startAt!!),
       };
 
+      const postProcessingValue: PostProcessingDTO = {
+        postProcessingBales: initialData?.postProcessingBales!!,
+        postProcessingWeight: initialData?.postProcessingWeight!! / 100,
+        postProcessingRevenue: initialData?.postProcessingRevenue!! / 100,
+        waste: initialData?.waste!! / 100,
+      };
+
+      postProcessingForm.setFieldsValue(postProcessingValue);
       form.setFieldsValue(formValue);
     }
   }, [initialData]);

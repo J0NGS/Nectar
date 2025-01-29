@@ -182,7 +182,7 @@ export const JobForm = ({ ...rest }: JobFormProps) => {
         </Col>
         <Col span={24} md={{ span: 6 }}>
           <Form.Item
-            label="Peso total"
+            label="Peso recebido"
             name={"weight"}
             key={"weight"}
             id="weight"
