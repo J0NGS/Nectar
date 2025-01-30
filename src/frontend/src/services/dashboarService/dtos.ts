@@ -10,7 +10,7 @@ export interface MonthlyBoard {
   waste: number;
   revenue: number;
   newBeekeepers: number;
-  ConcludeServices: number;
+  concludeServices: number;
   inProcessingServices: number;
 }
 

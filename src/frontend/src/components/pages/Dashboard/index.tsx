@@ -121,7 +121,7 @@ export const DashboardPage: React.FC = () => {
           <Card>
             <Statistic
               title="Serviços concluídos"
-              value={resourceBoard?.ConcludeServices || 0}
+              value={resourceBoard?.concludeServices || 0}
             />
           </Card>
         </Col>
