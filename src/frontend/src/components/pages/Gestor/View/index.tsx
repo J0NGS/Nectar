@@ -1,8 +1,9 @@
 import { LoadingContent } from "@/components/atoms/LoadingContent";
+import { ToBack } from "@/components/atoms/ToBack";
 import { ProfileWitchEmailDescription } from "@/components/molecules/Descriptions/ProfileWitchEmailDescription";
 import { ManagerService } from "@/services/managerService/service";
 import { Manager } from "@/types/entitysType";
-import { Card } from "antd";
+import { Card, Flex } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -29,17 +30,20 @@ export const ViewManagerPage: React.FC = () => {
   }, [id]);
 
   return (
-    <Card>
-      <LoadingContent isLoading={resourceLoading} />
-      <ProfileWitchEmailDescription
-        tittle="Gestor"
-        data={{
-          ...resource?.user?.profile,
-          owner: resource?.org,
-          email: resource?.user?.auth?.username,
-          status: resource?.user?.status,
-        }}
-      />
-    </Card>
+    <Flex gap={20} vertical>
+      <ToBack />
+      <Card>
+        <LoadingContent isLoading={resourceLoading} />
+        <ProfileWitchEmailDescription
+          tittle="Gestor"
+          data={{
+            ...resource?.user?.profile,
+            owner: resource?.org,
+            email: resource?.user?.auth?.username,
+            status: resource?.user?.status,
+          }}
+        />
+      </Card>
+    </Flex>
   );
 };

@@ -1,5 +1,6 @@
 import { BasePagination } from "@/components/atoms/BasePagination";
 import { LoadingContent } from "@/components/atoms/LoadingContent";
+import { ToBack } from "@/components/atoms/ToBack";
 import { AddressDescription } from "@/components/molecules/Descriptions/AddressDescription";
 import { ProfileWitchEmailDescription } from "@/components/molecules/Descriptions/ProfileWitchEmailDescription";
 import { CreateBeekeeperModal } from "@/components/molecules/modais/CreateBeekeeperModal";
@@ -77,6 +78,7 @@ export const ViewBeekeeperPage: React.FC = () => {
       <LoadingContent isLoading={resourceLoading} />
 
       <Flex gap={20} vertical>
+        <ToBack />
         <Card>
           <Flex gap={20} vertical>
             <ProfileWitchEmailDescription

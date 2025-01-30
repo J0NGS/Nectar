@@ -45,7 +45,7 @@ export const GestorPage: React.FC = () => {
     setLoading(true);
     try {
       await ManagerService.disableManager(manager.id as string, manager.user?.status === "ACTIVE" ? "INACTIVE" : "ACTIVE");
-      fetchPage();
+      await fetchPage();
     } catch (error) {
       console.error("handleDisable", error);
     } finally {

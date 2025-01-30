@@ -1,4 +1,5 @@
 import { LoadingContent } from "@/components/atoms/LoadingContent";
+import { ToBack } from "@/components/atoms/ToBack";
 import { JobDescription } from "@/components/molecules/Descriptions/JobDescription";
 import { PostProcessingDescription } from "@/components/molecules/Descriptions/PostProcessingDescription";
 import { JobsService } from "@/services/JobsService/service";
@@ -34,6 +35,7 @@ export const ViewJobPage: React.FC = () => {
       <LoadingContent isLoading={resourceLoading} />
 
       <Flex gap={20} vertical>
+        <ToBack />
         <Card>
           <JobDescription job={resource} />
         </Card>
