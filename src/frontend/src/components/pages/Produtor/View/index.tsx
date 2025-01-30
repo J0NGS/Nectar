@@ -4,6 +4,8 @@ import { ToBack } from "@/components/atoms/ToBack";
 import { AddressDescription } from "@/components/molecules/Descriptions/AddressDescription";
 import { ProfileWitchEmailDescription } from "@/components/molecules/Descriptions/ProfileWitchEmailDescription";
 import { CreateBeekeeperModal } from "@/components/molecules/modais/CreateBeekeeperModal";
+import { CreateJobsModal } from "@/components/molecules/modais/CreateJobsModal";
+import { PostProcessingModal } from "@/components/molecules/modais/PostProcessingModal";
 import { JobsTable } from "@/components/molecules/tables/JobsTable";
 import { BeekeepersService } from "@/services/beekeepersService/service";
 import { JobsStatusFilter } from "@/services/JobsService/dtos";
@@ -12,7 +14,9 @@ import { Pageable } from "@/types";
 import { Beekeeper, Job } from "@/types/entitysType";
 import { Button, Card, Flex, Radio, Typography } from "antd";
 import { useEffect, useState } from "react";
+import { AiFillEdit } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
+import { PlusOutlined } from "@ant-design/icons";
 
 export const ViewBeekeeperPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -20,6 +24,9 @@ export const ViewBeekeeperPage: React.FC = () => {
   const [canEdit, setCanEdit] = useState(false);
   const [resource, setResource] = useState<Beekeeper>();
   const [jobsResource, setJobsResource] = useState<Pageable<Job>>();
+  const [createJobModal, setCreateJobModal] = useState<boolean>(false);
+  const [selectedEditJob, setSelectedEditJob] = useState<Job>();
+  const [selectedProcess, setSelectedProcess] = useState<Job>();
   const [jobStatus, setJobStatus] = useState<JobsStatusFilter>(
     JobsStatusFilter.ALL
   );
@@ -85,7 +92,14 @@ export const ViewBeekeeperPage: React.FC = () => {
               tittle={
                 <Flex gap={16} justify="space-between">
                   <Typography.Title level={5}>Apicultores</Typography.Title>
-                  {/* <Button onClick={() => setCanEdit(true)}>Editar</Button> */}
+                  <Button
+                    onClick={() => setCanEdit(true)}
+                    className="flex items-center gap-1"
+                    type="text"
+                  >
+                    <AiFillEdit />
+                    Editar
+                  </Button>
                 </Flex>
               }
               data={{
@@ -106,16 +120,25 @@ export const ViewBeekeeperPage: React.FC = () => {
                 Histórico de serviços
               </Typography.Title>
 
-              <Radio.Group
-                value={jobStatus}
-                onChange={(e) => setJobStatus(e.target.value)}
-                buttonStyle="solid"
-              >
-                <Radio.Button value="ALL">Todos</Radio.Button>
-                <Radio.Button value="IN_PROGRESS">Em progresso</Radio.Button>
-                <Radio.Button value="CONCLUDED">Concluidos</Radio.Button>
-                <Radio.Button value="CANCELED">Cancelados</Radio.Button>
-              </Radio.Group>
+              <Flex gap={8} justify="end">
+                <Radio.Group
+                  value={jobStatus}
+                  onChange={(e) => setJobStatus(e.target.value)}
+                  buttonStyle="solid"
+                >
+                  <Radio.Button value="ALL">Todos</Radio.Button>
+                  <Radio.Button value="IN_PROGRESS">Em progresso</Radio.Button>
+                  <Radio.Button value="CONCLUDED">Concluidos</Radio.Button>
+                  <Radio.Button value="CANCELED">Cancelados</Radio.Button>
+                </Radio.Group>
+                <Button
+                  type="primary"
+                  icon={<PlusOutlined />}
+                  onClick={() => setCreateJobModal(true)}
+                >
+                  Novo Serviço
+                </Button>
+              </Flex>
             </Flex>
 
             <JobsTable
@@ -124,6 +147,8 @@ export const ViewBeekeeperPage: React.FC = () => {
               loading={loading}
               noBeekeeper={true}
               onView={handleView}
+              onEdit={(manager) => setSelectedEditJob(manager)}
+              onProcess={(job) => setSelectedProcess(job)}
             />
             <BasePagination
               page={page}
@@ -139,6 +164,26 @@ export const ViewBeekeeperPage: React.FC = () => {
         onClose={() => setCanEdit(false)}
         initialData={resource}
         reload={reload}
+      />
+
+      <CreateJobsModal
+        isOpen={createJobModal || !!selectedEditJob}
+        onClose={() => {
+          setCreateJobModal(false);
+          setSelectedEditJob(undefined);
+        }}
+        initialData={selectedEditJob}
+        beekeeperId={resource?.id}
+        reload={reload}
+      />
+
+      <PostProcessingModal
+        isOpen={!!selectedProcess}
+        initialData={selectedProcess}
+        reload={reload}
+        onClose={() => {
+          setSelectedProcess(undefined);
+        }}
       />
     </>
   );
