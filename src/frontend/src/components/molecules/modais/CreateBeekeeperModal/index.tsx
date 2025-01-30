@@ -83,7 +83,7 @@ export const CreateBeekeeperModal = ({
   };
 
   useEffect(() => {
-    if (initialData) {
+    if (initialData && isOpen) {
       const formValue = {
         ...initialData.profile,
         birthDate: dayjs(initialData.profile?.birthDate),
@@ -96,7 +96,7 @@ export const CreateBeekeeperModal = ({
         address: initialData.profile?.address,
       });
     }
-  }, [initialData]);
+  }, [initialData, isOpen]);
 
   return (
     <Modal

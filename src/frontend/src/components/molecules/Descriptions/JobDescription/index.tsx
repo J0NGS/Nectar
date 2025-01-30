@@ -8,9 +8,13 @@ import { Descriptions, DescriptionsProps } from "antd";
 
 interface JobDescriptionProps {
   job?: Job;
+  title?: string | React.ReactNode;
 }
 
-export const JobDescription: React.FC<JobDescriptionProps> = ({ job }) => {
+export const JobDescription: React.FC<JobDescriptionProps> = ({
+  job,
+  title = `Serviço`,
+}) => {
   const items: DescriptionsProps["items"] = [
     { label: "Origem", children: job?.origin },
     { label: "Aparência", children: job?.appearance },
@@ -46,7 +50,7 @@ export const JobDescription: React.FC<JobDescriptionProps> = ({ job }) => {
   ];
   return (
     <Descriptions
-      title="Serviço"
+      title={title}
       layout="vertical"
       column={{ xxl: 4, xl: 3, lg: 2, md: 1, sm: 1, xs: 1 }}
       items={items}

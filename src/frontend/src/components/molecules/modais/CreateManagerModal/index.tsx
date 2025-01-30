@@ -76,7 +76,7 @@ export const CreateManagerModal = ({
   };
 
   useEffect(() => {
-    if (initialData) {
+    if (initialData && isOpen) {
       const formValue = {
         ...initialData.user?.profile,
         email: initialData.user?.auth?.username,
@@ -84,7 +84,7 @@ export const CreateManagerModal = ({
 
       form.setFieldsValue(formValue);
     }
-  }, [initialData]);
+  }, [initialData, isOpen]);
 
   return (
     <Modal

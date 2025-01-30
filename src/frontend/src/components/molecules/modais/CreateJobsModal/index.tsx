@@ -4,7 +4,7 @@ import { Flex, Form, Modal, Typography } from "antd";
 
 import { LoadingContent } from "@/components/atoms/LoadingContent";
 
-import { Job } from "@/types/entitysType";
+import { Beekeeper, Job } from "@/types/entitysType";
 import { CreateJobDTO, PostProcessingDTO } from "@/services/JobsService/dtos";
 import { JobsService } from "@/services/JobsService/service";
 import { JobForm } from "@/components/organisms/JobForm";
@@ -16,6 +16,7 @@ export interface Props {
   isOpen: boolean;
   onClose: () => void;
   initialData?: Job;
+  beekeeperId?: string;
   reload?: () => Promise<void>;
 }
 
@@ -23,6 +24,7 @@ export const CreateJobsModal = ({
   isOpen,
   onClose,
   initialData,
+  beekeeperId,
   reload,
 }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -88,7 +90,7 @@ export const CreateJobsModal = ({
   };
 
   useEffect(() => {
-    if (initialData) {
+    if (initialData && isOpen) {
       const formValue: CreateJobDTO = {
         ...initialData,
         weight: initialData.weight!! / 100,
@@ -106,7 +108,12 @@ export const CreateJobsModal = ({
       postProcessingForm.setFieldsValue(postProcessingValue);
       form.setFieldsValue(formValue);
     }
-  }, [initialData]);
+  }, [initialData, isOpen]);
+
+  useEffect(() => {
+    if (!beekeeperId) return;
+    form.setFieldsValue({ beekeeperId: beekeeperId });
+  }, [beekeeperId]);
 
   return (
     <Modal
