@@ -2,15 +2,18 @@ import { LoadingContent } from "@/components/atoms/LoadingContent";
 import { ToBack } from "@/components/atoms/ToBack";
 import { JobDescription } from "@/components/molecules/Descriptions/JobDescription";
 import { PostProcessingDescription } from "@/components/molecules/Descriptions/PostProcessingDescription";
+import { CreateJobsModal } from "@/components/molecules/modais/CreateJobsModal";
 import { JobsService } from "@/services/JobsService/service";
 import { Job } from "@/types/entitysType";
-import { Card, Flex } from "antd";
+import { Button, Card, Flex, Typography } from "antd";
 import { useEffect, useState } from "react";
+import { AiFillEdit } from "react-icons/ai";
 import { useParams } from "react-router-dom";
 
 export const ViewJobPage: React.FC = () => {
   const [resourceLoading, setResourceLoading] = useState(false);
   const [resource, setResource] = useState<Job>();
+  const [canEdit, setCanEdit] = useState(false);
 
   const { id } = useParams();
 
@@ -26,6 +29,11 @@ export const ViewJobPage: React.FC = () => {
     }
   };
 
+  const reload = async () => {
+    if (!id) return;
+    await fetchResource(id);
+  };
+
   useEffect(() => {
     if (id) fetchResource(id);
   }, [id]);
@@ -37,7 +45,22 @@ export const ViewJobPage: React.FC = () => {
       <Flex gap={20} vertical>
         <ToBack />
         <Card>
-          <JobDescription job={resource} />
+          <JobDescription
+            job={resource}
+            title={
+              <Flex gap={16} justify="space-between">
+                <Typography.Title level={5}>Serviço</Typography.Title>
+                <Button
+                  onClick={() => setCanEdit(true)}
+                  className="flex items-center gap-1"
+                  type="text"
+                >
+                  <AiFillEdit />
+                  Editar
+                </Button>
+              </Flex>
+            }
+          />
         </Card>
 
         {resource?.postProcessingBales && (
@@ -53,6 +76,13 @@ export const ViewJobPage: React.FC = () => {
           </Card>
         )}
       </Flex>
+
+      <CreateJobsModal
+        isOpen={canEdit}
+        onClose={() => setCanEdit(false)}
+        initialData={resource}
+        reload={reload}
+      />
     </>
   );
 };
