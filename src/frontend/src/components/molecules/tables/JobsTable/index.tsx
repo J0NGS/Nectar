@@ -65,8 +65,8 @@ export const JobsTable = ({
         dataIndex: "weight",
         key: "weight",
         render: (_, { weight, postProcessingWeight }) =>
-          `${weight / 100}Kg /${
-            postProcessingWeight ? postProcessingWeight / 100 : 0
+          `${weight}Kg /${
+            postProcessingWeight ? postProcessingWeight : 0
           }Kg`,
       },
       {
@@ -80,13 +80,13 @@ export const JobsTable = ({
         dataIndex: "postProcessingRevenue",
         key: "postProcessingRevenue",
         render: (_, { postProcessingRevenue }) =>
-          (postProcessingRevenue ? postProcessingRevenue / 100 : 0) + "Kg",
+          (postProcessingRevenue ? postProcessingRevenue : 0) + "Kg",
       },
       {
         title: "Perdido",
         dataIndex: "waste",
         key: "waste",
-        render: (_, { waste }) => (waste ? waste / 100 : 0) + "Kg",
+        render: (_, { waste }) => (waste ? waste : 0) + "Kg",
       },
       {
         title: "Ações",

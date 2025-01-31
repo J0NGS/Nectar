@@ -63,16 +63,16 @@ export const CreateJobsModal = ({
 
     const formValue = {
       ...data,
-      weight: data.weight * 100,
+      weight: data.weight,
     };
 
     if (validateFormIsEmpty(postProcessingValue)) {
       const postProcessing = {
         ...postProcessingValue,
-        postProcessingWeight: postProcessingValue.postProcessingWeight!! * 100,
+        postProcessingWeight: postProcessingValue.postProcessingWeight!!,
         postProcessingRevenue:
-          postProcessingValue.postProcessingRevenue!! * 100,
-        waste: postProcessingValue.waste!! * 100,
+          postProcessingValue.postProcessingRevenue!!,
+        waste: postProcessingValue.waste!! ,
       };
 
       formValue.postProcessing = postProcessing;
@@ -93,16 +93,16 @@ export const CreateJobsModal = ({
     if (initialData && isOpen) {
       const formValue: CreateJobDTO = {
         ...initialData,
-        weight: initialData.weight!! / 100,
+        weight: initialData.weight!!,
         beekeeperId: initialData.beekeeper?.id!!,
         startAt: dayjs(initialData.startAt!!),
       };
 
       const postProcessingValue: PostProcessingDTO = {
         postProcessingBales: initialData?.postProcessingBales!!,
-        postProcessingWeight: initialData?.postProcessingWeight!! / 100,
-        postProcessingRevenue: initialData?.postProcessingRevenue!! / 100,
-        waste: initialData?.waste!! / 100,
+        postProcessingWeight: initialData?.postProcessingWeight!!,
+        postProcessingRevenue: initialData?.postProcessingRevenue!!,
+        waste: initialData?.waste!!,
       };
 
       postProcessingForm.setFieldsValue(postProcessingValue);
